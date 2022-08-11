@@ -29,7 +29,7 @@ const middleware_1 = require("./middleware/middleware");
 const dotenv = __importStar(require("dotenv"));
 const currentEnvironment = 'dev';
 dotenv.config({ path: `src/environment/${currentEnvironment}/.env` });
-const port = 8080;
+const port = process.env.PORT || 8080;
 const db_uri = process.env.MONGODB_URI;
 const app = new application_1.App(port, middleware_1.middleware, routes_1.routes);
 app.mongoDB(db_uri, (_response) => {
