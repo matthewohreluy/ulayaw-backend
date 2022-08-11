@@ -7,7 +7,7 @@ const currentEnvironment = 'dev'
 
 dotenv.config({path: `src/environment/${currentEnvironment}/.env`});
 
-const port: number = 8080 || process.env.PORT;
+const port: number = process.env.PORT || 8080;
 const db_uri: string = process.env.MONGODB_URI!;
 
 const app = new App(
