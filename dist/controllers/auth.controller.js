@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Auth = void 0;
 const express_validator_1 = require("express-validator");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_1 = __importDefault(require("../models/user"));
 var Auth;
 (function (Auth) {
@@ -40,13 +41,24 @@ var Auth;
     };
     Auth.login = (req, res, next) => {
         const { email, password, } = req.body;
+        let loadedUser;
         user_1.default
             .findOne({ email: email })
-            .then(user => {
+            .then((user) => {
             if (!user) {
-                const error = new Error('A user with this email could not be found.');
-                return res.status(401).json({ statusCode: 400, key: 'USERNOTEXIST', payload: error });
+                // const error = new Error('A user with this email could not be found.');
+                res.status(401).json({ statusCode: 400, key: 'USERNOTEXIST', payload: 'A user with this email could not be found.' });
             }
+            loadedUser = user;
+            return bcrypt_1.default.compare(password, user.password);
+        })
+            .then(isPwEqual => {
+            if (!isPwEqual) {
+                // const error = new Error('Wrong password');
+                res.status(401).json({ key: 'WRONGPASSWORD', payload: 'Wrong password' });
+            }
+            const token = jsonwebtoken_1.default.sign({ email: loadedUser.email, userId: loadedUser._id.toString() }, 'longapiKey', { expiresIn: '1h' });
+            res.status(200).json({ token: token, userId: loadedUser._id.toString() });
         })
             .catch(err => {
             if (!err.statusCode) {

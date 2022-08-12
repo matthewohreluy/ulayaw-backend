@@ -1,7 +1,7 @@
 import { validationResult } from 'express-validator';
 import {RequestHandler} from 'express';
 import bcrypt from 'bcrypt';
-
+import jwt from 'jsonwebtoken';
 
 import User from "../models/user";
 
@@ -49,13 +49,24 @@ export namespace Auth{
             email, 
             password,
         } = req.body;
+        let loadedUser: any;
         User
         .findOne({email: email})
-        .then(user=>{
+        .then((user: any)=>{
             if(!user){
-                const error = new Error('A user with this email could not be found.');
-                return res.status(401).json({statusCode: 400,key: 'USERNOTEXIST', payload: error});
+                // const error = new Error('A user with this email could not be found.');
+                res.status(401).json({statusCode: 400,key: 'USERNOTEXIST', payload: 'A user with this email could not be found.'});
             }
+            loadedUser = user;
+            return bcrypt.compare(password, user.password);
+        })
+        .then(isPwEqual =>{
+            if(!isPwEqual){
+                // const error = new Error('Wrong password');
+                res.status(401).json({key: 'WRONGPASSWORD', payload: 'Wrong password'});
+            }
+            const token = jwt.sign({email: loadedUser.email, userId: loadedUser._id.toString()}, 'longapiKey', {expiresIn: '1h'});
+            res.status(200).json({token: token, userId: loadedUser._id.toString()});
         })
         .catch(err=>{
             if(!err.statusCode){

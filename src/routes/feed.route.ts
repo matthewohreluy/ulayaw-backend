@@ -2,10 +2,11 @@ import { Router } from "express";
 import { body } from 'express-validator';
 
 import { Feed } from "../controllers/feed.controller";
+import { isAuth } from '../middleware/util/isAuth.util';
 
 const router = Router();
 
-router.get('/posts', Feed.getPosts);
+router.get('/posts',isAuth, Feed.getPosts);
 
 router.post('/post', [
     body('title').trim().isLength({min: 5}),

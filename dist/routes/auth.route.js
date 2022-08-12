@@ -32,5 +32,5 @@ router.put('/signup', [
         .not()
         .isEmpty(),
 ], auth_controller_1.Auth.signup);
-router.post('/login');
+router.post('/login', auth_controller_1.Auth.login);
 exports.default = router;

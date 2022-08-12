@@ -31,6 +31,6 @@ router.put('/signup', [
     .isEmpty(),
 ], Auth.signup);
 
-router.post('/login');
+router.post('/login', Auth.login);
 
 export default router;
