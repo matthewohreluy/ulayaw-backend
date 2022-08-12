@@ -42,7 +42,7 @@ const villaSchema = new Schema({
     type: Array,
     default:[]
    },
-   imagURLs:{
+   imageURLs:{
     type: Array,
     default:[]
    },
