@@ -17,7 +17,7 @@ var VillaController;
             if (err) {
                 next(err);
             }
-            return res.status(201).json({ message: 'Villa created!', userId: newVilla._id });
+            return res.status(201).json({ message: 'Villa created!', villaId: newVilla._id });
         });
     };
 })(VillaController = exports.VillaController || (exports.VillaController = {}));

@@ -5,15 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const Schema = mongoose_1.default.Schema;
-const villaSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: false
-    },
+const villaDefinitionSchema = new Schema({
     price: {
         type: Number,
         required: true
@@ -46,13 +38,27 @@ const villaSchema = new Schema({
         type: Array,
         default: []
     },
-    imagURLs: {
+    imageURLs: {
         type: Array,
         default: []
     },
     note: {
         type: String,
         required: false
+    }
+});
+const villaSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    overnight: {
+        type: villaDefinitionSchema,
+        required: true
+    },
+    dayTour: {
+        type: villaDefinitionSchema,
+        required: true
     }
 });
 exports.default = mongoose_1.default.model('Villa', villaSchema);
