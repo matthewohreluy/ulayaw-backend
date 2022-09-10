@@ -38,7 +38,9 @@ var VillaController;
         const villa = new villa_1.default({ ...req.body });
         villa.save((err, newVilla) => {
             if (err) {
-                next(err);
+                return res.status(500).json({
+                    err: err
+                });
             }
             return res.status(201).json({ message: 'Villa created!', userId: newVilla._id });
         });
