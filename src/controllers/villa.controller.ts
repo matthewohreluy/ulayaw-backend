@@ -1,4 +1,3 @@
-import { validationResult } from 'express-validator';
 import {RequestHandler} from 'express';
 import Villa from '../models/villa';
 
@@ -40,7 +39,7 @@ export namespace VillaController{
             if(err){
                 next(err)
             }
-        return res.status(201).json({message: 'Villa created!', userId: newVilla._id})
+        return res.status(201).json({message: 'Villa created!', villaId: newVilla._id})
         })
         
     }

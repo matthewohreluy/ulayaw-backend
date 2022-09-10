@@ -26,7 +26,8 @@ const isAuth = (req, res, next) => {
         // throw error;
         return res.status(401).json({ error: 401, message: 'This request is not authenticated', key: 'UNAUTHENTICATED' });
     }
-    req.userId = decodedToken.userId;
+    req.body.userId = decodedToken.userId;
+    req.body.email = decodedToken.email;
     next();
 };
 exports.isAuth = isAuth;

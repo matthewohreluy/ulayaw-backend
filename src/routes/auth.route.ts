@@ -1,3 +1,4 @@
+import { isAuth } from './../middleware/util/isAuth.util';
 import { Router } from "express";
 import { body } from 'express-validator';
 
@@ -32,5 +33,7 @@ router.put('/signup', [
 ], Auth.signup);
 
 router.post('/login', Auth.login);
+
+router.post('/verifyEmail',isAuth,Auth.verifyEmail);
 
 export default router;

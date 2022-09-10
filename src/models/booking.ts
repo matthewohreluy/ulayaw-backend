@@ -2,18 +2,14 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 const bookingSchema = new Schema({
-   villa:{
+   villaId:{
     type: Schema.Types.ObjectId,
     ref: 'Villa',
     required: true
    },
-   user:{
+   userId:{
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
-   },
-   refNo: {
-    type: String,
     required: true
    },
    startDate:{
@@ -36,6 +32,19 @@ const bookingSchema = new Schema({
    status:{
     type: String,
     required: true
+   },
+   bookingType:{
+      type: String,
+      required: true
+   },
+   addOns:[
+      {
+         type: Number,
+         required: false
+      }
+   ],
+   totalAmount:{
+      type: Number
    }
 });
 

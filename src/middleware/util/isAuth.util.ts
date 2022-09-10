@@ -25,7 +25,8 @@ export const isAuth: RequestHandler = (req: any, res: Response, next: NextFuncti
         // throw error;
         return res.status(401).json({error: 401, message: 'This request is not authenticated', key: 'UNAUTHENTICATED'})
     }
-    req.userId = decodedToken.userId;
+    req.body.userId = decodedToken.userId;
+    req.body.email = decodedToken.email;
     next();
 };
 

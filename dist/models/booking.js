@@ -6,18 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const Schema = mongoose_1.default.Schema;
 const bookingSchema = new Schema({
-    villa: {
+    villaId: {
         type: Schema.Types.ObjectId,
         ref: 'Villa',
         required: true
     },
-    user: {
+    userId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true
-    },
-    refNo: {
-        type: String,
         required: true
     },
     startDate: {
@@ -40,6 +36,19 @@ const bookingSchema = new Schema({
     status: {
         type: String,
         required: true
+    },
+    bookingType: {
+        type: String,
+        required: true
+    },
+    addOns: [
+        {
+            type: Number,
+            required: false
+        }
+    ],
+    totalAmount: {
+        type: Number
     }
 });
 exports.default = mongoose_1.default.model('Booking', bookingSchema);
