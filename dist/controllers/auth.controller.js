@@ -47,7 +47,7 @@ var Auth;
             .then((user) => {
             if (!user) {
                 // const error = new Error('A user with this email could not be found.');
-                res.status(401).json({ statusCode: 400, key: 'USERNOTEXIST', payload: 'A user with this email could not be found.' });
+                return res.status(401).json({ statusCode: 400, key: 'USERNOTEXIST', payload: 'A user with this email could not be found.' });
             }
             loadedUser = user;
             return bcrypt_1.default.compare(password, user.password);
