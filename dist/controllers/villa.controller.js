@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VillaController = void 0;
+const booking_1 = __importDefault(require("../models/booking"));
 const villa_1 = __importDefault(require("../models/villa"));
 var VillaController;
 (function (VillaController) {
@@ -41,6 +42,55 @@ var VillaController;
                 next(err);
             }
             return res.status(201).json({ message: 'Villa created!', villaId: newVilla._id });
+        });
+    };
+    VillaController.getAvailableVillas = (req, res, next) => {
+        const { startDate, endDate, guests } = req.query;
+        // check bookings
+        let query = [
+            {
+                $match: {
+                    $or: [
+                        { $and: [
+                                { 'startDate': { $gte: new Date(startDate.toString()) } },
+                                { 'startDate': { $lte: new Date(endDate.toString()) } }
+                            ] },
+                        { $and: [
+                                { 'endDate': { $gte: new Date(startDate.toString()) } },
+                                { 'endDate': { $lte: new Date(endDate.toString()) } }
+                            ] }
+                    ]
+                },
+            },
+            {
+                $group: { _id: "$villaId" }
+            }
+        ];
+        booking_1.default.aggregate(query, (error, bookings) => {
+            if (error) {
+                return res.status(500).json({
+                    error: error
+                });
+            }
+            if (bookings) {
+                const unavailableVillas = bookings.map((booking) => booking._id);
+                const bookingType = (startDate === endDate) ? 'overnight' : 'dayTour';
+                const toStringQuery = `${bookingType}.minPerson`;
+                const queryVilla = {
+                    _id: { $nin: unavailableVillas },
+                    [toStringQuery]: { $gte: guests }
+                };
+                villa_1.default.find(queryVilla, (err, villas) => {
+                    if (err) {
+                        return res.status(500).json({
+                            error: err
+                        });
+                    }
+                    return res.status(200).json({
+                        villas: villas
+                    });
+                });
+            }
         });
     };
 })(VillaController = exports.VillaController || (exports.VillaController = {}));
