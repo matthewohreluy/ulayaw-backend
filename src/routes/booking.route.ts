@@ -10,8 +10,9 @@ router.post('/add',isAuth,[
     body('endDate').not().isEmpty(),
     body('bookingType').not().isEmpty(),
 ],BookingController.addBooking);
-router.get('/getAll',isAuth, );
+router.get('/get',isAuth,BookingController.getBookings);
 router.get('/getOne/:id',isAuth, );
 router.put('/update/:id',isAuth, );
+
 
 export default router
