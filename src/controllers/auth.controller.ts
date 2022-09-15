@@ -71,7 +71,7 @@ export namespace Auth{
         .then(isPwEqual =>{
             if(!isPwEqual){
                 // const error = new Error('Wrong password');
-                res.status(400).json({key: 'WRONGPASSWORD', payload: 'Wrong password'});
+                res.status(400).json({statusCode: 400, key: 'WRONGPASSWORD', payload: 'Wrong password'});
             }
             const token = jwt.sign({email: loadedUser.email, userId: loadedUser._id.toString()}, 'longapiKey', {expiresIn: '1h'});
             return res.status(200).json({token: token, userId: loadedUser._id.toString(), userRole: loadedUser.role});
