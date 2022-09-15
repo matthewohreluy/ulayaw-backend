@@ -65,7 +65,7 @@ var Auth;
                 res.status(400).json({ key: 'WRONGPASSWORD', payload: 'Wrong password' });
             }
             const token = jsonwebtoken_1.default.sign({ email: loadedUser.email, userId: loadedUser._id.toString() }, 'longapiKey', { expiresIn: '1h' });
-            res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+            return res.status(200).json({ token: token, userId: loadedUser._id.toString(), userRole: loadedUser.role });
         })
             .catch(err => {
             if (!err.statusCode) {
