@@ -74,7 +74,7 @@ export namespace Auth{
                 res.status(400).json({statusCode: 400, key: 'WRONGPASSWORD', payload: 'Wrong password'});
             }
             const token = jwt.sign({email: loadedUser.email, userId: loadedUser._id.toString()}, 'longapiKey', {expiresIn: '1h'});
-            return res.status(200).json({token: token, userId: loadedUser._id.toString(), userRole: loadedUser.role});
+            return res.status(200).json({token: token, user: loadedUser, userRole: loadedUser.role});
         })
         .catch(err=>{
             if(!err.statusCode){
