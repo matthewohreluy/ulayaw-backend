@@ -37,7 +37,7 @@ var Auth;
             .then(resultUser => {
             // send Email
             (0, emailer_1.sendEmail)(resultUser);
-            return res.status(201).json({ message: 'User created!', userId: resultUser._id, key: 'USERCREATED' });
+            return res.status(201).json({ message: 'User created!', user: resultUser, key: 'USERCREATED' });
         })
             .catch(err => {
             if (!err.statusCode) {
@@ -62,7 +62,7 @@ var Auth;
             .then(isPwEqual => {
             if (!isPwEqual) {
                 // const error = new Error('Wrong password');
-                res.status(400).json({ key: 'WRONGPASSWORD', payload: 'Wrong password' });
+                res.status(400).json({ statusCode: 400, key: 'WRONGPASSWORD', payload: 'Wrong password' });
             }
             const token = jsonwebtoken_1.default.sign({ email: loadedUser.email, userId: loadedUser._id.toString() }, 'longapiKey', { expiresIn: '1h' });
             return res.status(200).json({ token: token, userId: loadedUser._id.toString(), userRole: loadedUser.role });

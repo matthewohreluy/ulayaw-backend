@@ -42,7 +42,7 @@ export namespace Auth{
         .then(resultUser =>{
             // send Email
             sendEmail(resultUser)
-            return res.status(201).json({message: 'User created!', userId: resultUser._id, key: 'USERCREATED'})
+            return res.status(201).json({message: 'User created!', user: resultUser, key: 'USERCREATED'})
         })
         .catch(err=>{
             if(!err.statusCode){
