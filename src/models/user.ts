@@ -27,6 +27,20 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    feedback:{
+        rating: {
+            type: Number,
+            required: false
+        },
+        description: {
+            type: String,
+            required: false
+        },
+        isAnonymous: {
+            type: Boolean,
+            required: false
+        }
+    },
     role:{
         type: String,
         required: true
