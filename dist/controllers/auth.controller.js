@@ -9,6 +9,7 @@ const hashcode_1 = require("../functions/hashcode");
 const emailer_1 = require("./../functions/emailer");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const fs_1 = __importDefault(require("fs"));
 const user_1 = __importDefault(require("../models/user"));
 var Auth;
 (function (Auth) {
@@ -36,7 +37,13 @@ var Auth;
         })
             .then(resultUser => {
             // send Email
-            (0, emailer_1.sendEmail)(resultUser);
+            // create html
+            let readStream = fs_1.default.readFileSync("./src/html/c-emailcode.html", "utf8");
+            let html = readStream.toString();
+            html = html
+                .replace("{firstname}", resultUser.firstName)
+                .replace("{code}", resultUser.code);
+            (0, emailer_1.sendEmail)(resultUser, html);
             return res.status(201).json({ message: 'User created!', user: resultUser, key: 'USERCREATED' });
         })
             .catch(err => {
@@ -64,7 +71,7 @@ var Auth;
                 // const error = new Error('Wrong password');
                 res.status(400).json({ statusCode: 400, key: 'WRONGPASSWORD', payload: 'Wrong password' });
             }
-            const token = jsonwebtoken_1.default.sign({ email: loadedUser.email, userId: loadedUser._id.toString() }, 'longapiKey', { expiresIn: '1h' });
+            const token = jsonwebtoken_1.default.sign({ email: loadedUser.email, userId: loadedUser._id.toString() }, 'longapiKey', { expiresIn: '365d' });
             return res.status(200).json({ token: token, user: loadedUser, userRole: loadedUser.role });
         })
             .catch(err => {
@@ -115,5 +122,9 @@ var Auth;
                     .json({ error: 400, message: 'Account is already verified', key: 'ACCOUNTALREADYVERIFIED' });
             }
         });
+    };
+    Auth.forgotPassword = () => {
+    };
+    Auth.changePassword = () => {
     };
 })(Auth = exports.Auth || (exports.Auth = {}));

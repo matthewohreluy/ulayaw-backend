@@ -5,6 +5,7 @@ import { sendEmail } from './../functions/emailer';
 
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import fs from 'fs';
 
 import User from "../models/user";
 
@@ -41,7 +42,16 @@ export namespace Auth{
         })
         .then(resultUser =>{
             // send Email
-            sendEmail(resultUser)
+            // create html
+            let readStream = fs.readFileSync(
+                "./src/html/c-emailcode.html",
+                "utf8"
+              );
+            let html = readStream.toString();
+            html = html
+                    .replace("{firstname}", resultUser.firstName)
+                    .replace("{code}", resultUser.code);
+            sendEmail(resultUser, html)
             return res.status(201).json({message: 'User created!', user: resultUser, key: 'USERCREATED'})
         })
         .catch(err=>{
@@ -73,7 +83,7 @@ export namespace Auth{
                 // const error = new Error('Wrong password');
                 res.status(400).json({statusCode: 400, key: 'WRONGPASSWORD', payload: 'Wrong password'});
             }
-            const token = jwt.sign({email: loadedUser.email, userId: loadedUser._id.toString()}, 'longapiKey', {expiresIn: '1h'});
+            const token = jwt.sign({email: loadedUser.email, userId: loadedUser._id.toString()}, 'longapiKey', {expiresIn: '365d'});
             return res.status(200).json({token: token, user: loadedUser, userRole: loadedUser.role});
         })
         .catch(err=>{
@@ -133,5 +143,13 @@ export namespace Auth{
                 .json({error: 400, message: 'Account is already verified', key: 'ACCOUNTALREADYVERIFIED'})
             }
         })
+    }
+
+    export const forgotPassword: RequestHandler = () =>{
+        
+    }
+
+    export const changePassword: RequestHandler = () =>{
+
     }
 }

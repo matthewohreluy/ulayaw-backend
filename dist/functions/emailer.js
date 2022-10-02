@@ -28,17 +28,15 @@ const SibApiV3Sdk = __importStar(require("sib-api-v3-typescript"));
 const dotenv = __importStar(require("dotenv"));
 const currentEnvironment = 'dev';
 dotenv.config({ path: `src/environment/${currentEnvironment}/.env` });
-const sendEmail = (userData) => {
-    console.log(process.env.SIB_API);
+const sendEmail = (userData, html) => {
     let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
     apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.SIB_API);
     apiInstance.sendTransacEmail({
         'subject': '[ULAYAW] Confirm your email',
         'sender': { 'email': 'support@ulayaw.com', 'name': 'Ulayaw Support Team' },
         'to': [{ 'email': userData.email, 'name': userData.firstName + ' ' + userData.lastName },],
-        'htmlContent': `<html><body><p>Your verification code is: ${userData.code}<p></body></html>`,
+        'htmlContent': html,
     }).then(function (data) {
-        console.log(data);
     }, function (error) {
         console.error(error);
     });

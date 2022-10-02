@@ -1,0 +1,152 @@
+  /* text colors, buttons, flex items, columns, section header, flex grid  */
+  @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+  /* @import url("https://fonts.googleapis.com/css?family=Raleway:400,500,600,700&display=swap"); */
+  @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap");
+  @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+  
+  :root {
+    --mainbg-color: #efeeeb;
+    --txt-field-color: #333;
+    --heading-color: #6b4f4f;
+    --main-btn-color: #1b5b65;
+  }
+  
+  * {
+    margin: 0px;
+  }
+  
+  /*code verification*/
+  .emailtable {
+    margin-top: 40px;
+    border: 0;
+    padding: 0;
+    width: 100%;
+  }
+  .emailtd {
+    padding: 20px 0 30px 0;
+    background-color: #cccccc;
+  }
+  .emailtd2 {
+    border: 0px solid #cc2a41;
+    text-align: center;
+    margin: auto;
+    border: 0;
+    padding: 0;
+    width: 600px;
+    background-color: #cccccc;
+  }
+  
+  .emailImg {
+    display: block;
+    width: 150px;
+  }
+  
+  .headertd {
+    padding: 20px 0 20px 0;
+    background-color: #483434;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .emailbody {
+    padding: 40px 30px 40px 30px;
+    background-color: white;
+    font-family: "Montserrat", sans-serif;
+  }
+  
+  .email-innerbody {
+    color: #473a3a;
+    font-family: "Abril Fatface";
+    font-size: 20px;
+    background-color: white;
+    position: relative;
+    font-size: 35px;
+    font-weight: 600;
+    font-family: "Abril Fatface";
+    color: #483434;
+  }
+  
+  .email-innerbody::before {
+    content: "";
+    position: absolute;
+    center: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #bb9981;
+    border-radius: 25px;
+  }
+  
+  .emailfooter {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 20px 0 0px 0;
+    color: #808080;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+    background-color: white;
+  }
+  
+  .code-table,
+  .code-table td,
+  .ct-tr {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .code-tag {
+    background-color: #ccc;
+    color: #fff;
+    border-radius: 50px;
+    font-size: 30px;
+    margin: 0;
+    padding: 20px 80px;
+    text-transform: uppercase;
+    background-color: #9dbbae;
+  }
+  
+  .email-vcode-input {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    font-size: 18px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: none;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    margin: 5px;
+  }
+  .email-vcode-input:hover,
+  button:focus {
+    outline: 0 !important;
+    border: none;
+    outline: none;
+  }
+  .email-vcode {
+    margin: 10px 0px 20px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .log-checkbox-text,
+  .log-checkbox-text1 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 14px;
+  }
+  
+  .codetag {
+    background-color: #ccc;
+    color: #fff;
+    border-radius: 50px;
+    font-size: 40px;
+    margin: 0;
+    padding: 5px 20px;
+    text-transform: uppercase;
+    background-color: #9dbbae;
+  }
