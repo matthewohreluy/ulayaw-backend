@@ -1,3 +1,4 @@
+import { generatePassword } from './../functions/hashcode';
 import { validationResult } from 'express-validator';
 import {RequestHandler} from 'express';
 import { generateCode } from '../functions/hashcode';
@@ -145,11 +146,68 @@ export namespace Auth{
         })
     }
 
-    export const forgotPassword: RequestHandler = () =>{
-        
+    export const forgotPassword: RequestHandler = (req, res, next) =>{
+        const {userId} = req.body;
+        const password = generatePassword(8);
+        // send email passcode
+        console.log(password);
+        console.log('hi')
+       bcrypt
+        .hash(password, 12)
+        .then(hashedPw =>{
+            User.findByIdAndUpdate({_id: userId}, {password: hashedPw},{new: true}, (err: any, user: any)=>{
+                if(err){
+                    return res.status(500).json({
+                        err: err
+                    });
+                }
+                let readStream = fs.readFileSync(
+                    "./src/html/c-forgotpass.html",
+                    "utf8"
+                  );
+                let html = readStream.toString();
+                html = html
+                        .replace("{firstname}", user.firstName)
+                        .replace("{code}", password);
+                sendEmail(user, html)
+                return res.status(200).json({user: user, key: 'PASSUPDATED'})
+        })
+    })
     }
 
-    export const changePassword: RequestHandler = () =>{
-
+    export const changePassword: RequestHandler = (req, res, next) =>{
+        const {userId, oldPassword, newPassword} = req.body;
+        
+        const password = generatePassword(8);
+        User
+        .findOne({_id: userId})
+        .then((user: any)=>{
+            if(!user){
+                // const error = new Error('A user with this email could not be found.');
+                res.status(400).json({statusCode: 400,key: 'USERNOTEXIST', payload: 'A user with this email could not be found.'});
+            }
+            let loadedUser = user;
+            return bcrypt.compare(oldPassword, user.password);
+        })
+        .then(isPwEqual =>{
+            if(!isPwEqual){
+                // const error = new Error('Wrong password');
+                return res.status(400).json({statusCode: 400, key: 'WRONGPASSWORD', payload: 'Wrong old password'});
+            }else{
+                bcrypt
+                    .hash(newPassword, 12)
+                    .then(hashedPw =>{
+                        User.findByIdAndUpdate({_id: userId}, {password: hashedPw},{new: true}, (err: any, user: any)=>{
+                            if(err){
+                                return res.status(500).json({
+                                    err: err
+                                });
+                            }
+                            return res.status(200).json({user: user, key: 'PASSUPDATED'})
+                    })
+                })
+            }
+            
+        })
     }
 }
