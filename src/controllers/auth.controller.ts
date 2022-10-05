@@ -147,7 +147,7 @@ export namespace Auth{
     }
 
     export const forgotPassword: RequestHandler = (req, res, next) =>{
-        const {userId} = req.body;
+        const {email} = req.body;
         const password = generatePassword(8);
         // send email passcode
         console.log(password);
@@ -155,7 +155,7 @@ export namespace Auth{
        bcrypt
         .hash(password, 12)
         .then(hashedPw =>{
-            User.findByIdAndUpdate({_id: userId}, {password: hashedPw},{new: true}, (err: any, user: any)=>{
+            User.findByIdAndUpdate({email: email}, {password: hashedPw},{new: true}, (err: any, user: any)=>{
                 if(err){
                     return res.status(500).json({
                         err: err
