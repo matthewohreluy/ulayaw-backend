@@ -125,7 +125,7 @@ var Auth;
         });
     };
     Auth.forgotPassword = (req, res, next) => {
-        const { userId } = req.body;
+        const { email } = req.body;
         const password = (0, hashcode_1.generatePassword)(8);
         // send email passcode
         console.log(password);
@@ -133,7 +133,7 @@ var Auth;
         bcrypt_1.default
             .hash(password, 12)
             .then(hashedPw => {
-            user_1.default.findByIdAndUpdate({ _id: userId }, { password: hashedPw }, { new: true }, (err, user) => {
+            user_1.default.findByIdAndUpdate({ email: email }, { password: hashedPw }, { new: true }, (err, user) => {
                 if (err) {
                     return res.status(500).json({
                         err: err

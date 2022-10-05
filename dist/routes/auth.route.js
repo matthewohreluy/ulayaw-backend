@@ -36,5 +36,5 @@ router.put('/signup', [
 router.post('/login', auth_controller_1.Auth.login);
 router.post('/verifyEmail', isAuth_util_1.isAuth, auth_controller_1.Auth.verifyEmail);
 router.post('/changePassword', isAuth_util_1.isAuth, auth_controller_1.Auth.changePassword);
-router.post('/forgotPassword', isAuth_util_1.isAuth, auth_controller_1.Auth.forgotPassword);
+router.post('/forgotPassword', auth_controller_1.Auth.forgotPassword);
 exports.default = router;
