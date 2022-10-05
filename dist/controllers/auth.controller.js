@@ -130,11 +130,13 @@ var Auth;
         // send email passcode
         console.log(password);
         console.log('hi');
+        console.log(email);
         bcrypt_1.default
             .hash(password, 12)
             .then(hashedPw => {
-            user_1.default.findByIdAndUpdate({ email: email }, { password: hashedPw }, { new: true }, (err, user) => {
+            user_1.default.findOneAndUpdate({ email: email }, { password: hashedPw }, { new: true }, (err, user) => {
                 if (err) {
+                    console.log('error');
                     return res.status(500).json({
                         err: err
                     });

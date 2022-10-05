@@ -152,11 +152,13 @@ export namespace Auth{
         // send email passcode
         console.log(password);
         console.log('hi')
+        console.log(email);
        bcrypt
         .hash(password, 12)
         .then(hashedPw =>{
-            User.findByIdAndUpdate({email: email}, {password: hashedPw},{new: true}, (err: any, user: any)=>{
+            User.findOneAndUpdate({email: email}, {password: hashedPw},{new: true}, (err: any, user: any)=>{
                 if(err){
+                    console.log('error');
                     return res.status(500).json({
                         err: err
                     });
