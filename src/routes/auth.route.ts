@@ -38,7 +38,7 @@ router.post('/verifyEmail',isAuth,Auth.verifyEmail);
 
 router.post('/changePassword', isAuth, Auth.changePassword);
 
-router.post('/forgotPassword', isAuth, Auth.forgotPassword);
+router.post('/forgotPassword', Auth.forgotPassword);
 
 
 export default router;
