@@ -74,7 +74,8 @@ export namespace Auth{
         .then((user: any)=>{
             if(!user){
                 // const error = new Error('A user with this email could not be found.');
-                res.status(400).json({statusCode: 400,key: 'USERNOTEXIST', payload: 'A user with this email could not be found.'});
+               res.status(400).json({statusCode: 400,key: 'USERNOTEXIST', payload: 'A user with this email could not be found.'});
+               return false
             }
             loadedUser = user;
             return bcrypt.compare(password, user.password);
@@ -82,7 +83,7 @@ export namespace Auth{
         .then(isPwEqual =>{
             if(!isPwEqual){
                 // const error = new Error('Wrong password');
-                res.status(400).json({statusCode: 400, key: 'WRONGPASSWORD', payload: 'Wrong password'});
+               return res.status(400).json({statusCode: 400, key: 'WRONGPASSWORD', payload: 'Wrong password'});
             }
             const token = jwt.sign({email: loadedUser.email, userId: loadedUser._id.toString()}, 'longapiKey', {expiresIn: '365d'});
             return res.status(200).json({token: token, user: loadedUser, userRole: loadedUser.role});
@@ -187,6 +188,7 @@ export namespace Auth{
             if(!user){
                 // const error = new Error('A user with this email could not be found.');
                 res.status(400).json({statusCode: 400,key: 'USERNOTEXIST', payload: 'A user with this email could not be found.'});
+                return false
             }
             let loadedUser = user;
             return bcrypt.compare(oldPassword, user.password);
