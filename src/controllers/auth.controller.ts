@@ -37,7 +37,12 @@ export namespace Auth{
                 lastName: lastName,
                 contact: contact,
                 role: role,
-                code: code
+                code: code,
+                feedback:{
+                    rating: 0,
+                    description: '',
+                    isAnonymous: false
+                }
             });
             return user.save();
         })
