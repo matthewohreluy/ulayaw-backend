@@ -22,11 +22,17 @@ var Auth;
         const { email, firstName, lastName, password, contact, role } = req.body;
         // generate hashcode
         const code = (0, hashcode_2.generateCode)(6);
+        // check if role is guest
+        let status = 'New';
+        if (role === 'Guest') {
+            status = 'Verified';
+        }
         bcrypt_1.default
             .hash(password, 12)
             .then(hashedPw => {
             const user = new user_1.default({
                 email: email,
+                status: status,
                 password: hashedPw,
                 firstName: firstName,
                 lastName: lastName,

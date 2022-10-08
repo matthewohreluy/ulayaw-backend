@@ -27,11 +27,17 @@ export namespace Auth{
             } = req.body;
         // generate hashcode
         const code = generateCode(6);
+        // check if role is guest
+        let status = 'New';
+        if(role === 'Guest'){
+            status = 'Verified';
+        }
         bcrypt
         .hash(password, 12)
         .then(hashedPw =>{
             const user = new User({
                 email: email,
+                status: status,
                 password: hashedPw,
                 firstName: firstName,
                 lastName: lastName,

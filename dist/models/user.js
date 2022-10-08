@@ -13,7 +13,6 @@ const userSchema = new Schema({
     status: {
         type: String,
         required: true,
-        default: 'New'
     },
     password: {
         type: String,
