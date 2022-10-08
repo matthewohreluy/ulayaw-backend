@@ -53,6 +53,14 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    dateCreated: {
+        type: Date,
+        required: true,
+    },
+    dateUpdated: {
+        type: Date,
+        required: true
+    },
     bookings: [{
             type: Schema.Types.ObjectId,
             ref: 'Booking'

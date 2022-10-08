@@ -32,7 +32,14 @@ var Auth;
                 lastName: lastName,
                 contact: contact,
                 role: role,
-                code: code
+                code: code,
+                dateCreated: new Date(),
+                dateUpdated: new Date(),
+                feedback: {
+                    rating: 0,
+                    description: '',
+                    isAnonymous: false
+                }
             });
             return user.save();
         })
@@ -63,6 +70,7 @@ var Auth;
             if (!user) {
                 // const error = new Error('A user with this email could not be found.');
                 res.status(400).json({ statusCode: 400, key: 'USERNOTEXIST', payload: 'A user with this email could not be found.' });
+                return false;
             }
             loadedUser = user;
             return bcrypt_1.default.compare(password, user.password);
@@ -70,7 +78,7 @@ var Auth;
             .then(isPwEqual => {
             if (!isPwEqual) {
                 // const error = new Error('Wrong password');
-                res.status(400).json({ statusCode: 400, key: 'WRONGPASSWORD', payload: 'Wrong password' });
+                return res.status(400).json({ statusCode: 400, key: 'WRONGPASSWORD', payload: 'Wrong password' });
             }
             const token = jsonwebtoken_1.default.sign({ email: loadedUser.email, userId: loadedUser._id.toString() }, 'longapiKey', { expiresIn: '365d' });
             return res.status(200).json({ token: token, user: loadedUser, userRole: loadedUser.role });
@@ -101,7 +109,8 @@ var Auth;
                         _id: userId
                     }, {
                         $set: {
-                            status: 'Verified'
+                            status: 'Verified',
+                            dateUpdated: new Date(),
                         }
                     }, {
                         upsert: true
@@ -134,7 +143,7 @@ var Auth;
         bcrypt_1.default
             .hash(password, 12)
             .then(hashedPw => {
-            user_1.default.findOneAndUpdate({ email: email }, { password: hashedPw }, { new: true }, (err, user) => {
+            user_1.default.findOneAndUpdate({ email: email }, { dateUpdated: new Date(), password: hashedPw }, { new: true }, (err, user) => {
                 if (err) {
                     console.log('error');
                     return res.status(500).json({
@@ -160,6 +169,7 @@ var Auth;
             if (!user) {
                 // const error = new Error('A user with this email could not be found.');
                 res.status(400).json({ statusCode: 400, key: 'USERNOTEXIST', payload: 'A user with this email could not be found.' });
+                return false;
             }
             let loadedUser = user;
             return bcrypt_1.default.compare(oldPassword, user.password);
@@ -173,7 +183,7 @@ var Auth;
                 bcrypt_1.default
                     .hash(newPassword, 12)
                     .then(hashedPw => {
-                    user_1.default.findByIdAndUpdate({ _id: userId }, { password: hashedPw }, { new: true }, (err, user) => {
+                    user_1.default.findByIdAndUpdate({ _id: userId }, { dateUpdated: new Date(), password: hashedPw }, { new: true }, (err, user) => {
                         if (err) {
                             return res.status(500).json({
                                 err: err

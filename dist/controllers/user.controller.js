@@ -8,7 +8,36 @@ const user_1 = __importDefault(require("../models/user"));
 var UserController;
 (function (UserController) {
     UserController.getUsers = (req, res, next) => {
-        const query = req.query;
+        const userRole = req.query.userRole;
+        const searchKey = req.query.searchKey;
+        console.log(req.query);
+        const queryMaker = {
+            status: { $ne: 'Deleted' }
+        };
+        if (userRole) {
+            queryMaker['role'] = userRole;
+        }
+        if (searchKey) {
+            queryMaker['$or'] = [
+                {
+                    firstName: { $regex: searchKey, '$options': 'i' }
+                },
+                {
+                    lastName: { $regex: searchKey, '$options': 'i' }
+                }
+            ];
+        }
+        console.log(queryMaker);
+        user_1.default.find(queryMaker, (err, user) => {
+            if (err) {
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            return res.status(200).json({
+                payload: user
+            });
+        });
     };
     UserController.getOne = (req, res, next) => {
         // get id
@@ -27,7 +56,7 @@ var UserController;
     UserController.updateOne = (req, res, next) => {
         const id = req.params.id;
         const body = req.body;
-        user_1.default.findByIdAndUpdate({ _id: id }, { ...body }, { new: true }, (err, user) => {
+        user_1.default.findByIdAndUpdate({ _id: id }, { ...body, dateUpdated: new Date(), }, { new: true }, (err, user) => {
             if (err) {
                 return res.status(500).json({
                     err: err

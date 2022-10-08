@@ -38,6 +38,8 @@ export namespace Auth{
                 contact: contact,
                 role: role,
                 code: code,
+                dateCreated: new Date(),
+                dateUpdated: new Date(),
                 feedback:{
                     rating: 0,
                     description: '',
@@ -126,7 +128,8 @@ export namespace Auth{
                         },
                         {
                             $set:{
-                                status: 'Verified'
+                                status: 'Verified',
+                                dateUpdated: new Date(),
                             }
                         },
                         {
@@ -162,7 +165,7 @@ export namespace Auth{
        bcrypt
         .hash(password, 12)
         .then(hashedPw =>{
-            User.findOneAndUpdate({email: email}, {password: hashedPw},{new: true}, (err: any, user: any)=>{
+            User.findOneAndUpdate({email: email}, {dateUpdated: new Date(),password: hashedPw},{new: true}, (err: any, user: any)=>{
                 if(err){
                     console.log('error');
                     return res.status(500).json({
@@ -206,7 +209,7 @@ export namespace Auth{
                 bcrypt
                     .hash(newPassword, 12)
                     .then(hashedPw =>{
-                        User.findByIdAndUpdate({_id: userId}, {password: hashedPw},{new: true}, (err: any, user: any)=>{
+                        User.findByIdAndUpdate({_id: userId}, {dateUpdated: new Date(),password: hashedPw},{new: true}, (err: any, user: any)=>{
                             if(err){
                                 return res.status(500).json({
                                     err: err
