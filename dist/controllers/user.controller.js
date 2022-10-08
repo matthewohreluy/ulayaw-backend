@@ -7,16 +7,12 @@ exports.UserController = void 0;
 const user_1 = __importDefault(require("../models/user"));
 var UserController;
 (function (UserController) {
-    UserController.getUsers = (req, res, next) => {
-        const userRole = req.query.userRole;
+    UserController.getNonGuestUsers = (req, res, next) => {
         const searchKey = req.query.searchKey;
-        console.log(req.query);
         const queryMaker = {
-            status: { $ne: 'Deleted' }
+            status: { $ne: 'Deleted' },
         };
-        if (userRole) {
-            queryMaker['role'] = userRole;
-        }
+        queryMaker['role'] = { $ne: 'Guest' };
         if (searchKey) {
             queryMaker['$or'] = [
                 {

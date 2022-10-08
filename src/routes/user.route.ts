@@ -6,7 +6,7 @@ import { UserController } from "../controllers/user.controller";
 
 const router = Router();
 
-router.get('/getAll', isAuth,UserController.getUsers);
+router.get('/getNonGuests', isAuth,UserController.getNonGuestUsers);
 
 router.get('/getOne/:id',isAuth, UserController.getOne)
 

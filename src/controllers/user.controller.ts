@@ -4,16 +4,13 @@ import User from '../models/user'
 
 
 export namespace UserController{
-    export const getUsers: RequestHandler = (req, res, next) =>{
-        const userRole = req.query.userRole;
+    export const getNonGuestUsers: RequestHandler = (req, res, next) =>{
         const searchKey = req.query.searchKey;
-        console.log(req.query)
         const queryMaker: Record<any,any> = {
-            status: {$ne: 'Deleted'}
+            status: {$ne: 'Deleted'},
         }
-        if(userRole){
-            queryMaker['role'] = userRole
-        }
+
+        queryMaker['role'] = { $ne: 'Guest'}
         if(searchKey){
            queryMaker['$or'] = [
             {
