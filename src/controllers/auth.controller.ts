@@ -28,9 +28,9 @@ export namespace Auth{
         // generate hashcode
         const code = generateCode(6);
         // check if role is guest
-        let status = 'New';
+        let status = 'Verifed';
         if(role === 'Guest'){
-            status = 'Verified';
+            status = 'New';
         }
         bcrypt
         .hash(password, 12)
