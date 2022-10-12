@@ -64,4 +64,27 @@ export namespace UserController{
             })
         })
     }
+
+    export const getCustomerSatisfaction: RequestHandler = (req, res, next) =>{
+        let queryMaker = {
+            'feedback.description': { $ne: '' },
+            'role': 'Guest',
+        }
+
+        User
+        .find(queryMaker,(err: any, users: any)=>{
+            if(err){
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            return res.status(200).json({
+                payload: users
+            })
+        })
+        .sort({dateUpdated: -1})
+        .limit(10).then((users)=>{
+            console.log(users);
+        })
+    }
 }

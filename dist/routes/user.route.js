@@ -6,5 +6,6 @@ const user_controller_1 = require("../controllers/user.controller");
 const router = (0, express_1.Router)();
 router.get('/getNonGuests', isAuth_util_1.isAuth, user_controller_1.UserController.getNonGuestUsers);
 router.get('/getOne/:id', isAuth_util_1.isAuth, user_controller_1.UserController.getOne);
+router.get('/customerSatisfaction', user_controller_1.UserController.getCustomerSatisfaction);
 router.put('/updateOne/:id', isAuth_util_1.isAuth, user_controller_1.UserController.updateOne);
 exports.default = router;

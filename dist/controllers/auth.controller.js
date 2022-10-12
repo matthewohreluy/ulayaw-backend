@@ -23,9 +23,9 @@ var Auth;
         // generate hashcode
         const code = (0, hashcode_2.generateCode)(6);
         // check if role is guest
-        let status = 'New';
+        let status = 'Verifed';
         if (role === 'Guest') {
-            status = 'Verified';
+            status = 'New';
         }
         bcrypt_1.default
             .hash(password, 12)

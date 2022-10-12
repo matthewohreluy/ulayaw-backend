@@ -63,4 +63,25 @@ var UserController;
             });
         });
     };
+    UserController.getCustomerSatisfaction = (req, res, next) => {
+        let queryMaker = {
+            'feedback.description': { $ne: '' },
+            'role': 'Guest',
+        };
+        user_1.default
+            .find(queryMaker, (err, users) => {
+            if (err) {
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            return res.status(200).json({
+                payload: users
+            });
+        })
+            .sort({ dateUpdated: -1 })
+            .limit(10).then((users) => {
+            console.log(users);
+        });
+    };
 })(UserController = exports.UserController || (exports.UserController = {}));
