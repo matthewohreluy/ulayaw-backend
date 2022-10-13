@@ -53,7 +53,12 @@ export namespace UserController{
     export const updateOne: RequestHandler = (req, res, next) => {
         const id = req.params.id;
         const body = req.body;
-        User.findByIdAndUpdate({_id: id}, {...body,dateUpdated: new Date(),},{new: true}, (err: any, user: any)=>{
+        const emailChange = body.emailChange
+        const query = {...body,dateUpdated: new Date()}
+        if(emailChange){
+            query['email'] = emailChange
+        }
+        User.findByIdAndUpdate({_id: id}, query,{new: true}, (err: any, user: any)=>{
             if(err){
                 return res.status(500).json({
                     err: err
