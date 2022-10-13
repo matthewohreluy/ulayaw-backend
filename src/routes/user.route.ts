@@ -12,6 +12,6 @@ router.get('/getOne/:id',isAuth, UserController.getOne);
 
 router.get('/customerSatisfaction', UserController.getCustomerSatisfaction);
 
-router.put('/updateOne/:id',isAuth, UserController.updateOne);
+router.put('/updateOne/:id', UserController.updateOne);
 
 export default router;
