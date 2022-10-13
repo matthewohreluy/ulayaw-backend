@@ -83,8 +83,6 @@ export namespace UserController{
             })
         })
         .sort({dateUpdated: -1})
-        .limit(10).then((users)=>{
-            console.log(users);
-        })
+        .limit(10)
     }
 }
