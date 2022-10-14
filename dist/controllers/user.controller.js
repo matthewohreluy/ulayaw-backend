@@ -52,11 +52,7 @@ var UserController;
     UserController.updateOne = (req, res, next) => {
         const id = req.params.id;
         const body = req.body;
-        const emailChange = body.emailChange;
         const query = { ...body, dateUpdated: new Date() };
-        if (emailChange) {
-            query['email'] = emailChange;
-        }
         user_1.default.findByIdAndUpdate({ _id: id }, query, { new: true }, (err, user) => {
             if (err) {
                 return res.status(500).json({
