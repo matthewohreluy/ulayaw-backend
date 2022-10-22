@@ -10,7 +10,8 @@ export namespace BookingController{
             userId,
             startDate,
             endDate,
-            bookingType
+            bookingType,
+            price
         } = req.body;
         // validate startdate, enddate
         let startD = new Date(startDate).getTime()
@@ -54,6 +55,7 @@ export namespace BookingController{
                 dateBooked: new Date(),
                 isPaid: false,
                 status: 'Active',
+                price,
                 bookingType
             })
             booking.save((err, newBooking)=>{

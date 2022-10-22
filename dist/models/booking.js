@@ -43,7 +43,7 @@ const bookingSchema = new Schema({
     },
     addOns: [
         {
-            type: Number,
+            type: Object,
             required: false
         }
     ],

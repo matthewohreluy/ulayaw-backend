@@ -74,16 +74,12 @@ var VillaController;
             }
             if (bookings) {
                 const unavailableVillas = bookings.map((booking) => booking._id);
-                const bookingType = (startDate === endDate) ? 'dayTour': 'overnight';
-                console.log(bookingType);
+                const bookingType = (startDate === endDate) ? 'overnight' : 'dayTour';
                 const toStringQuery = `${bookingType}.minPerson`;
-                const toStringQuery2 = `${bookingType}.maxPerson`;
                 const queryVilla = {
                     _id: { $nin: unavailableVillas },
-                    // [toStringQuery]: { $lte: Number(guests) },
-                    [toStringQuery2]: { $gte: Number(guests) },
+                    [toStringQuery]: { $gte: guests }
                 };
-                console.log(queryVilla);
                 villa_1.default.find(queryVilla, (err, villas) => {
                     if (err) {
                         return res.status(500).json({
