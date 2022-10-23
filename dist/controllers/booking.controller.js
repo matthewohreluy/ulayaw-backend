@@ -9,7 +9,7 @@ const villa_1 = __importDefault(require("../models/villa"));
 var BookingController;
 (function (BookingController) {
     BookingController.addBooking = (req, res, next) => {
-        const { villaId, userId, startDate, endDate, bookingType, price } = req.body;
+        const { villaId, userId, startDate, endDate, bookingType, price, addOns } = req.body;
         // validate startdate, enddate
         let startD = new Date(startDate).getTime();
         let endD = new Date(endDate).getTime();
@@ -42,7 +42,8 @@ var BookingController;
                 dateBooked: new Date(),
                 isPaid: false,
                 status: 'Active',
-                bookingType
+                bookingType,
+                addOns
             });
             const booking = new booking_1.default({
                 villaId,
@@ -53,7 +54,8 @@ var BookingController;
                 isPaid: false,
                 status: 'Active',
                 price,
-                bookingType
+                bookingType,
+                addOns
             });
             booking.save((err, newBooking) => {
                 if (err) {

@@ -43,7 +43,7 @@ const bookingSchema = new Schema({
     },
     addOns: [
         {
-            type: Object,
+            type: Schema.Types.Mixed,
             required: false
         }
     ],

@@ -11,7 +11,8 @@ export namespace BookingController{
             startDate,
             endDate,
             bookingType,
-            price
+            price,
+            addOns
         } = req.body;
         // validate startdate, enddate
         let startD = new Date(startDate).getTime()
@@ -45,7 +46,8 @@ export namespace BookingController{
                 dateBooked: new Date(),
                 isPaid: false,
                 status: 'Active',
-                bookingType
+                bookingType,
+                addOns
             })
             const booking = new Booking({
                 villaId,
@@ -56,7 +58,8 @@ export namespace BookingController{
                 isPaid: false,
                 status: 'Active',
                 price,
-                bookingType
+                bookingType,
+                addOns
             })
             booking.save((err, newBooking)=>{
                 if(err){
