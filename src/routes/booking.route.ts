@@ -12,7 +12,7 @@ router.post('/add',isAuth,[
 ],BookingController.addBooking);
 router.get('/get',isAuth,BookingController.getBookings);
 router.get('/getOne/:id',isAuth, );
-router.put('/update/:id',isAuth, );
+router.put('/update/:id',isAuth, BookingController.updateBooking);
 
 
 export default router

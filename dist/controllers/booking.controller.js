@@ -89,4 +89,19 @@ var BookingController;
             return res.status(201).json({ payload: bookings });
         });
     };
+    BookingController.updateBooking = (req, res, next) => {
+        const id = req.params.id;
+        const body = req.body;
+        const query = { ...body };
+        booking_1.default.findByIdAndUpdate({ _id: id }, query, { new: true }, (err, user) => {
+            if (err) {
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            return res.status(200).json({
+                payload: user
+            });
+        });
+    };
 })(BookingController = exports.BookingController || (exports.BookingController = {}));
