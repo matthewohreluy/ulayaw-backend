@@ -35,6 +35,34 @@ var UserController;
             });
         });
     };
+    UserController.getGuestUsers = (req, res, next) => {
+        const searchKey = req.query.searchKey;
+        const queryMaker = {
+            status: { $ne: 'Deleted' },
+        };
+        queryMaker['role'] = { $eq: 'Guest' };
+        if (searchKey) {
+            queryMaker['$or'] = [
+                {
+                    firstName: { $regex: searchKey, '$options': 'i' }
+                },
+                {
+                    lastName: { $regex: searchKey, '$options': 'i' }
+                }
+            ];
+        }
+        console.log(queryMaker);
+        user_1.default.find(queryMaker, (err, user) => {
+            if (err) {
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            return res.status(200).json({
+                payload: user
+            });
+        });
+    };
     UserController.getOne = (req, res, next) => {
         // get id
         const id = req.params.id;

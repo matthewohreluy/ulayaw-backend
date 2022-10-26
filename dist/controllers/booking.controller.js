@@ -41,7 +41,7 @@ var BookingController;
                 endDate: new Date(endDate),
                 dateBooked: new Date(),
                 isPaid: false,
-                status: 'Pending',
+                status: 'Active',
                 bookingType,
                 addOns
             });
@@ -52,7 +52,7 @@ var BookingController;
                 endDate: new Date(endDate),
                 dateBooked: new Date(),
                 isPaid: false,
-                status: 'Pending',
+                status: 'Active',
                 price,
                 bookingType,
                 addOns
