@@ -12,6 +12,6 @@ router.post('/add', isAuth_util_1.isAuth, [
     (0, express_validator_1.body)('bookingType').not().isEmpty(),
 ], booking_controller_1.BookingController.addBooking);
 router.get('/get', isAuth_util_1.isAuth, booking_controller_1.BookingController.getBookings);
-router.get('/getOne/:id', isAuth_util_1.isAuth);
+router.get('/getOne/:id', isAuth_util_1.isAuth, booking_controller_1.BookingController.getOneBooking);
 router.put('/update/:id', isAuth_util_1.isAuth, booking_controller_1.BookingController.updateBooking);
 exports.default = router;

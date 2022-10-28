@@ -11,7 +11,7 @@ router.post('/add',isAuth,[
     body('bookingType').not().isEmpty(),
 ],BookingController.addBooking);
 router.get('/get',isAuth,BookingController.getBookings);
-router.get('/getOne/:id',isAuth, );
+router.get('/getOne/:id',isAuth, BookingController.getOneBooking);
 router.put('/update/:id',isAuth, BookingController.updateBooking);
 
 

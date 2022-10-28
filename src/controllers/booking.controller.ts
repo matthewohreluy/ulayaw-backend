@@ -96,6 +96,22 @@ export namespace BookingController{
        })
     }
 
+    export const getOneBooking: RequestHandler = (req, res, next) => {
+        // get id
+        const id = req.params.id;
+        Booking.findById({_id: id}, (err: any, booking: any)=>{
+            if(err){
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            return res.status(200).json({
+                payload: booking
+            })
+        })
+        
+    }
+
     export const updateBooking: RequestHandler = (req, res, next) =>{
         const id = req.params.id;
         const body = req.body;

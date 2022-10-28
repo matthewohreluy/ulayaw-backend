@@ -89,6 +89,20 @@ var BookingController;
             return res.status(201).json({ payload: bookings });
         });
     };
+    BookingController.getOneBooking = (req, res, next) => {
+        // get id
+        const id = req.params.id;
+        booking_1.default.findById({ _id: id }, (err, booking) => {
+            if (err) {
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            return res.status(200).json({
+                payload: booking
+            });
+        });
+    };
     BookingController.updateBooking = (req, res, next) => {
         const id = req.params.id;
         const body = req.body;
