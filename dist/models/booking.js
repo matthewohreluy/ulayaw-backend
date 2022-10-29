@@ -41,6 +41,16 @@ const bookingSchema = new Schema({
         type: String,
         required: true
     },
+    noOfGuests: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    paymentType: {
+        type: String,
+        required: true,
+        default: 'Full'
+    },
     addOns: [
         {
             type: Schema.Types.Mixed,

@@ -11,16 +11,17 @@ export namespace BookingController{
             startDate,
             endDate,
             bookingType,
-            price,
+            noOfGuests,
+            totalAmount,
             addOns
         } = req.body;
         // validate startdate, enddate
         let startD = new Date(startDate).getTime()
         let endD = new Date(endDate).getTime()
         let todayD = new Date().getTime()
-        if(startD >= endD){
+        if(startD > endD){
             return res.status(400)
-            .json({error: 400, message: 'End date must not be less than or equal to start date', key: 'INVALIDDATELOGIC'})
+            .json({error: 400, message: 'End date must not be less than to start date', key: 'INVALIDDATELOGIC'})
         }
         // startDate shoule b greater than today
         if(todayD > startD){
@@ -57,9 +58,11 @@ export namespace BookingController{
                 dateBooked: new Date(),
                 isPaid: false,
                 status: 'Active',
-                price,
+                paymentType: 'Full',
                 bookingType,
-                addOns
+                addOns,
+                noOfGuests,
+                totalAmount,
             })
             booking.save((err, newBooking)=>{
                 if(err){
@@ -105,8 +108,21 @@ export namespace BookingController{
                     err: err
                 });
             }
-            return res.status(200).json({
-                payload: booking
+            Villa.findOne({
+                _id: id
+            }, (err: any, villa: any)=>{
+                if (err) {
+                    return res.status(500).json({
+                        err: err
+                    });
+                }
+                const data = {
+                    ...booking,
+                    villaId: villa
+                }
+                return res.status(200).json({
+                    payload: data
+                })
             })
         })
         
