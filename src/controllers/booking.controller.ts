@@ -46,7 +46,7 @@ export namespace BookingController{
                 endDate: new Date(endDate),
                 dateBooked: new Date(),
                 isPaid: false,
-                status: 'Active',
+                status: 'Pending',
                 bookingType,
                 addOns
             })
@@ -57,7 +57,7 @@ export namespace BookingController{
                 endDate: new Date(endDate),
                 dateBooked: new Date(),
                 isPaid: false,
-                status: 'Active',
+                status: 'Pending',
                 paymentType: 'Full',
                 bookingType,
                 addOns,
