@@ -109,16 +109,16 @@ export namespace BookingController{
                 });
             }
             Villa.findOne({
-                _id: id
+                _id: booking.villaId
             }, (err: any, villa: any)=>{
                 if (err) {
                     return res.status(500).json({
                         err: err
                     });
                 }
+                booking.villaId = villa
                 const data = {
-                    ...booking,
-                    villaId: villa
+                    booking,
                 }
                 return res.status(200).json({
                     payload: data

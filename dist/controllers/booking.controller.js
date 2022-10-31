@@ -101,16 +101,16 @@ var BookingController;
                 });
             }
             villa_1.default.findOne({
-                _id: id
+                _id: booking.villaId
             }, (err, villa) => {
                 if (err) {
                     return res.status(500).json({
                         err: err
                     });
                 }
+                booking.villaId = villa;
                 const data = {
-                    ...booking,
-                    villaId: villa
+                    booking,
                 };
                 return res.status(200).json({
                     payload: data
