@@ -18,6 +18,7 @@
     "nodemon": "^2.0.19"
   },
   "dependencies": {
+    "@babel/runtime": "^7.20.1",
     "@types/bcrypt": "^5.0.0",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
@@ -27,6 +28,7 @@
     "express-validator": "^6.14.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.4",
+    "paymongo": "^1.2.2",
     "sib-api-v3-sdk": "^8.4.2",
     "sib-api-v3-typescript": "^2.2.2"
   }

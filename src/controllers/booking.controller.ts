@@ -1,9 +1,57 @@
 import { RequestHandler } from 'express';
 import Booking from '../models/booking';
 import Villa from '../models/villa';
+import Paymongo from 'paymongo';
+
+
+const paymongo = new Paymongo('sk_test_5pYcXMAsP3rWCERk6A8yDDTs');
 
 
 export namespace BookingController{
+    export const payBooking: RequestHandler = async (req, res, next) =>{
+        const id = req.params.id
+        // async function listWebhooks () {
+        //     return paymongo.webhooks.list();
+        //   }
+
+        // listWebhooks()
+        // .then((result) => { console.log(result); })
+        // .catch();
+        const data ={
+            data: {
+                attributes: {
+                  type: 'gcash',
+                  amount: 10000, // PHP200,
+                  currency: 'PHP',
+                  redirect: {
+                    success: 'http://localhost:8080/booking/success/payment/',
+                    failed: 'https://www.google.com'
+                  }
+                }
+              }
+        }
+       
+        try{
+            const result = await paymongo.sources.create(data);
+            return res.status(200).json(result);
+        }catch (error) {
+            console.error(error);
+          }
+    }
+
+    export const successPay: RequestHandler = async (req, res, next) =>{
+        
+    
+        const data ='src_ahiUE6X7o8s7ecZc23ZPzt8i'
+       
+        try{
+            const result = await paymongo.sources.retrieve(data);
+            return res.status(200).json(result);
+        }catch (error) {
+            console.error(error);
+          }
+    }
+
     export const addBooking: RequestHandler = (req, res, next) =>{
         const {
             villaId,

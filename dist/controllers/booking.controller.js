@@ -6,8 +6,49 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookingController = void 0;
 const booking_1 = __importDefault(require("../models/booking"));
 const villa_1 = __importDefault(require("../models/villa"));
+const paymongo_1 = __importDefault(require("paymongo"));
+const paymongo = new paymongo_1.default('sk_test_5pYcXMAsP3rWCERk6A8yDDTs');
 var BookingController;
 (function (BookingController) {
+    BookingController.payBooking = async (req, res, next) => {
+        const id = req.params.id;
+        // async function listWebhooks () {
+        //     return paymongo.webhooks.list();
+        //   }
+        // listWebhooks()
+        // .then((result) => { console.log(result); })
+        // .catch();
+        const data = {
+            data: {
+                attributes: {
+                    type: 'gcash',
+                    amount: 10000,
+                    currency: 'PHP',
+                    redirect: {
+                        success: 'http://localhost:8080/booking/success/payment/',
+                        failed: 'https://www.google.com'
+                    }
+                }
+            }
+        };
+        try {
+            const result = await paymongo.sources.create(data);
+            return res.status(200).json(result);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    };
+    BookingController.successPay = async (req, res, next) => {
+        const data = 'src_ahiUE6X7o8s7ecZc23ZPzt8i';
+        try {
+            const result = await paymongo.sources.retrieve(data);
+            return res.status(200).json(result);
+        }
+        catch (error) {
+            console.error(error);
+        }
+    };
     BookingController.addBooking = (req, res, next) => {
         const { villaId, userId, startDate, endDate, bookingType, noOfGuests, totalAmount, addOns } = req.body;
         // validate startdate, enddate

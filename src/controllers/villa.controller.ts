@@ -79,13 +79,13 @@ export namespace VillaController{
             }
             if(bookings){
               const unavailableVillas = bookings.map((booking: any)=>booking._id)
-              const bookingType = (startDate === endDate) ? 'overnight' : 'dayTour'
+              const bookingType = (startDate === endDate) ? 'dayTour' : 'overnight'
               const toStringQuery = `${bookingType}.minPerson`
               const queryVilla: Record<any, any> = {
                 _id: {$nin: unavailableVillas},
-                [toStringQuery]: {$gte: guests}
+                [toStringQuery]: {$gte: Number(guests)}
                 }
-                
+                console.log(queryVilla);
               Villa.find(queryVilla, (err: any, villas: any)=>{
                 if(err){
                     return res.status(500).json({
