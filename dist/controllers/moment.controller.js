@@ -41,7 +41,7 @@ var MomentController;
                     const newMoment = new moment_1.default({
                         userId: req.body.userId,
                         status: 'New',
-                        imageUrl: 'https://ulayaw-backend.herokuapp.com/moments' + req.file.filename,
+                        imageUrl: 'https://ulayaw-backend.herokuapp.com/moments/' + req.file.filename,
                         description: req.body.description,
                         dateUpdated: new Date()
                     });
