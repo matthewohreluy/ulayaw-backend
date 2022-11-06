@@ -2,10 +2,12 @@ import { error } from './util/error.util';
 import { json } from 'body-parser';
 import { cors } from './util/cors.util';
 import { staticFiles } from './util/static.util';
+import { multer } from './util/multer.util';
 
 export const middleware = [
     json(),
     cors,
     error,
-    staticFiles
+    staticFiles,
+    multer
 ]

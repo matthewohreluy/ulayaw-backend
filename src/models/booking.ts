@@ -55,7 +55,7 @@ const bookingSchema = new Schema({
    ],
    totalAmount:{
       type: Number
-   }
+   },
 });
 
 export default mongoose.model('Booking', bookingSchema);
