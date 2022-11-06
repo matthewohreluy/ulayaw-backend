@@ -46,6 +46,7 @@ const sendCustomEmail = (data) => {
     return new Promise((resolve, reject) => {
         let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
         apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.SIB_API);
+        console.log(data);
         apiInstance.sendTransacEmail({
             'subject': '[ULAYAW] ' + data.subject,
             'sender': { 'email': data.email, 'name': data.name },

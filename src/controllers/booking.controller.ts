@@ -124,7 +124,6 @@ export namespace BookingController{
     }
 
     export const getBookings: RequestHandler = (req, res, next) =>{
-        console.log('get')
         const {
             villaId,
             userId,

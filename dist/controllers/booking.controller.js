@@ -111,7 +111,6 @@ var BookingController;
         });
     };
     BookingController.getBookings = (req, res, next) => {
-        console.log('get');
         const { villaId, userId, startDate, endDate, status } = req.query;
         const query = {};
         if (villaId)

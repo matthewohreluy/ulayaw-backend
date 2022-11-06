@@ -99,4 +99,20 @@ export namespace VillaController{
             }
         })
     }
+
+    export const updateVilla: RequestHandler = (req, res, next) =>{
+        const id = req.params.id;
+        const body = req.body;
+        const query = {...body}
+        Villa.findByIdAndUpdate({_id: id}, query,{new: true}, (err: any, user: any)=>{
+            if(err){
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            return res.status(200).json({
+                payload: user
+            })
+        })
+    }
 }
