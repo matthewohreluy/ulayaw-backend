@@ -11,5 +11,5 @@ exports.middleware = [
     cors_util_1.cors,
     error_util_1.error,
     static_util_1.staticFiles,
-    multer_util_1.multer
+    multer_util_1.multer,
 ];

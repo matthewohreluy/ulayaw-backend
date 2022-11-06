@@ -9,5 +9,5 @@ export const middleware = [
     cors,
     error,
     staticFiles,
-    multer
+    multer,
 ]
