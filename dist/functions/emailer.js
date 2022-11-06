@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sendEmail = void 0;
+exports.sendCustomEmail = exports.sendEmail = void 0;
 const SibApiV3Sdk = __importStar(require("sib-api-v3-typescript"));
 const dotenv = __importStar(require("dotenv"));
 const currentEnvironment = 'dev';
@@ -42,6 +42,23 @@ const sendEmail = (userData, html) => {
     });
 };
 exports.sendEmail = sendEmail;
+const sendCustomEmail = (data) => {
+    return new Promise((resolve, reject) => {
+        let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+        apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.SIB_API);
+        apiInstance.sendTransacEmail({
+            'subject': '[ULAYAW] ' + data.subject,
+            'sender': { 'email': data.email, 'name': data.name },
+            'to': [{ 'email': data.receiver, 'name': data.receiverName },],
+            'htmlContent': data.message,
+        }).then(function (data) {
+            resolve(data);
+        }, function (error) {
+            reject(error);
+        });
+    });
+};
+exports.sendCustomEmail = sendCustomEmail;
 // const SibApiV3Sdk = require('sib-api-v3-typescript');
 // let apiInstance = new SibApiV3Sdk.AccountApi()
 // Configure API key authorization: apiKey

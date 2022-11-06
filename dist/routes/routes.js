@@ -10,11 +10,13 @@ const villa_route_1 = __importDefault(require("./villa.route"));
 const booking_route_1 = __importDefault(require("./booking.route"));
 const user_route_1 = __importDefault(require("./user.route"));
 const moment_route_1 = __importDefault(require("./moment.route"));
+const admin_route_1 = __importDefault(require("./admin.route"));
 exports.routes = [
     ['/feed', feed_route_1.default],
     ['/auth', auth_route_1.default],
     ['/villa', villa_route_1.default],
     ['/booking', booking_route_1.default],
     ['/user', user_route_1.default],
-    ['/moment', moment_route_1.default]
+    ['/moment', moment_route_1.default],
+    ['/admin', admin_route_1.default],
 ];

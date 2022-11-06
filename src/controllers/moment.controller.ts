@@ -20,9 +20,6 @@ export namespace MomentController{
     }
 
     export const upload: RequestHandler = (req, res, next) =>{
-    //    console.log(req.file);
-    //    return res.status(200).json(req.body)
-    // check no. of bookings
     Booking.find({userId: req.body.userId}, (err: any, booking: any)=>{
         if (err) {
             return res.status(500).json({
@@ -64,5 +61,20 @@ export namespace MomentController{
         }
     }) 
     })
+    }
+
+    export const updateMoment: RequestHandler = (req, res, next) =>{
+        const id = req.params.id;
+        const body = req.body;
+        Moment.findByIdAndUpdate({_id: id}, {status: req.body.status},{new: true}, (err: any, user: any)=>{
+            if(err){
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            return res.status(200).json({
+                payload: user
+            })
+        })
     }
 }

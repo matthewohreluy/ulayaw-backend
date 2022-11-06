@@ -5,7 +5,8 @@ import { MomentController } from '../controllers/moment.controller';
 
 const router = Router();
 
-router.get('/all', isAuth,MomentController.getAll);
+router.get('/get', isAuth,MomentController.getAll);
 router.post('/upload', isAuth,MomentController.upload);
+router.put('/update/:id', isAuth,MomentController.updateMoment);
 
 export default router;

@@ -5,6 +5,7 @@ import VillaRoutes from './villa.route';
 import BookingRoutes from './booking.route';
 import UserRoutes from './user.route';
 import MomentRoutes from './moment.route';
+import AdminRoutes from './admin.route';
 
 export const routes: [string, Router][] = [
     ['/feed',FeedRoutes],
@@ -12,5 +13,6 @@ export const routes: [string, Router][] = [
     ['/villa',VillaRoutes],
     ['/booking',BookingRoutes],
     ['/user', UserRoutes],
-    ['/moment', MomentRoutes]
+    ['/moment', MomentRoutes],
+    ['/admin', AdminRoutes],
 ]

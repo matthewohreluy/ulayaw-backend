@@ -22,6 +22,25 @@ export const sendEmail = (userData: any, html: any) =>{
       });
 }
 
+export const sendCustomEmail = (data: any) =>{
+  return new Promise((resolve, reject)=>{
+    let apiInstance = new SibApiV3Sdk.TransactionalEmailsApi()
+  apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.SIB_API!);
+  apiInstance.sendTransacEmail(
+      {
+        'subject':'[ULAYAW] ' + data.subject,
+        'sender' : {'email': data.email, 'name':data.name},
+        'to' : [{'email': data.receiver, 'name': data.receiverName},],
+        'htmlContent' : data.message,
+      }
+    ).then(function(data) {
+      resolve(data)
+    }, function(error) {
+      reject(error)
+    });
+  })
+}
+
 
 // const SibApiV3Sdk = require('sib-api-v3-typescript');
 
