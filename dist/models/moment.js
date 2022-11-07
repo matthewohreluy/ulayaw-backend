@@ -16,6 +16,11 @@ const momentSchema = new Schema({
         default: 'New',
         required: true
     },
+    remarks: {
+        type: String,
+        default: '',
+        required: false
+    },
     imageUrl: {
         type: String,
         required: false,

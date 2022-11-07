@@ -9,7 +9,17 @@ const moment_1 = __importDefault(require("../models/moment"));
 var MomentController;
 (function (MomentController) {
     MomentController.getAll = (req, res, next) => {
-        moment_1.default.find({}, (err, moment) => {
+        const status = req.body.status;
+        let query = {};
+        if (status) {
+            query = {
+                status: status
+            };
+        }
+        moment_1.default
+            .find(query)
+            .populate('userId', { 'firstName': 1, 'lastName': 1 })
+            .exec((err, moment) => {
             if (err) {
                 return res.status(500).json({
                     err: err
@@ -67,7 +77,7 @@ var MomentController;
     MomentController.updateMoment = (req, res, next) => {
         const id = req.params.id;
         const body = req.body;
-        moment_1.default.findByIdAndUpdate({ _id: id }, { status: req.body.status }, { new: true }, (err, user) => {
+        moment_1.default.findByIdAndUpdate({ _id: id }, { status: req.body.status, remarks: req.body.remarks }, { new: true }, (err, user) => {
             if (err) {
                 return res.status(500).json({
                     err: err

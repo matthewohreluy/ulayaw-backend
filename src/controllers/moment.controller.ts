@@ -7,9 +7,16 @@ import Moment from '../models/moment';
 
 export namespace MomentController{
     export const getAll: RequestHandler = (req, res, next) =>{
+        const status = req.body.status
+        let query = {}
+        if(status){
+            query = {
+                status: status
+            }
+        }
         Moment
-        .find({})
-        .populate('userId')
+        .find(query)
+        .populate('userId', {'firstName': 1,'lastName': 1})
         .exec((err: any, moment: any)=>{
             if (err) {
                 return res.status(500).json({
