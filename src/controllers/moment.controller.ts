@@ -7,7 +7,10 @@ import Moment from '../models/moment';
 
 export namespace MomentController{
     export const getAll: RequestHandler = (req, res, next) =>{
-        Moment.find({}, (err: any, moment: any)=>{
+        Moment
+        .find({})
+        .populate('userId')
+        .exec((err: any, moment: any)=>{
             if (err) {
                 return res.status(500).json({
                     err: err
@@ -66,7 +69,7 @@ export namespace MomentController{
     export const updateMoment: RequestHandler = (req, res, next) =>{
         const id = req.params.id;
         const body = req.body;
-        Moment.findByIdAndUpdate({_id: id}, {status: req.body.status},{new: true}, (err: any, user: any)=>{
+        Moment.findByIdAndUpdate({_id: id}, {status: req.body.status, remarks: req.body.remarks},{new: true}, (err: any, user: any)=>{
             if(err){
                 return res.status(500).json({
                     err: err
