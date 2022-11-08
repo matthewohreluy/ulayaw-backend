@@ -38,12 +38,13 @@ var MomentController;
                     err: err
                 });
             }
-            moment_1.default.find({}, (err, moment) => {
+            moment_1.default.find({ userId: req.body.userId }, (err, moment) => {
                 if (err) {
                     return res.status(500).json({
                         err: err
                     });
                 }
+                console.log(moment);
                 if (booking.length > moment.length) {
                     // upload moment
                     const newMoment = new moment_1.default({

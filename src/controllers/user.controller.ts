@@ -84,6 +84,8 @@ export namespace UserController{
         const id = req.params.id;
         const body = req.body;
         const query = {...body,dateUpdated: new Date()}
+        delete query.userId;
+        delete query.email;
         User.findByIdAndUpdate({_id: id}, query,{new: true}, (err: any, user: any)=>{
             if(err){
                 return res.status(500).json({

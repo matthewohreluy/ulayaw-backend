@@ -98,6 +98,8 @@ var VillaController;
         const id = req.params.id;
         const body = req.body;
         const query = { ...body };
+        delete query.userId;
+        delete query.email;
         villa_1.default.findByIdAndUpdate({ _id: id }, query, { new: true }, (err, user) => {
             if (err) {
                 return res.status(500).json({

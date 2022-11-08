@@ -182,6 +182,7 @@ export namespace BookingController{
 
         const query = {...body}
         delete query.userId;
+        delete query.email;
         Booking.findByIdAndUpdate({_id: id}, query,{new: true}, (err: any, user: any)=>{
             if(err){
                 return res.status(500).json({

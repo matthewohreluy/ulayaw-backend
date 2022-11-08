@@ -81,6 +81,8 @@ var UserController;
         const id = req.params.id;
         const body = req.body;
         const query = { ...body, dateUpdated: new Date() };
+        delete query.userId;
+        delete query.email;
         user_1.default.findByIdAndUpdate({ _id: id }, query, { new: true }, (err, user) => {
             if (err) {
                 return res.status(500).json({

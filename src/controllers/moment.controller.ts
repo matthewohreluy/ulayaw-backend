@@ -38,12 +38,13 @@ export namespace MomentController{
                 err: err
             });
         }
-    Moment.find({}, (err: any, moment: any)=>{
+    Moment.find({userId: req.body.userId}, (err: any, moment: any)=>{
         if (err) {
             return res.status(500).json({
                 err: err
             });
         }
+        console.log(moment);
         if(booking.length > moment.length){
             // upload moment
             const newMoment = new Moment({
