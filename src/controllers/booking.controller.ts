@@ -179,7 +179,9 @@ export namespace BookingController{
     export const updateBooking: RequestHandler = (req, res, next) =>{
         const id = req.params.id;
         const body = req.body;
+
         const query = {...body}
+        delete query.userId;
         Booking.findByIdAndUpdate({_id: id}, query,{new: true}, (err: any, user: any)=>{
             if(err){
                 return res.status(500).json({

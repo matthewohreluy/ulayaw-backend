@@ -163,6 +163,7 @@ var BookingController;
         const id = req.params.id;
         const body = req.body;
         const query = { ...body };
+        delete query.userId;
         booking_1.default.findByIdAndUpdate({ _id: id }, query, { new: true }, (err, user) => {
             if (err) {
                 return res.status(500).json({
