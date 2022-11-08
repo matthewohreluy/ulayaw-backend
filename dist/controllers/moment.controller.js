@@ -19,6 +19,7 @@ var MomentController;
         moment_1.default
             .find(query)
             .populate('userId', { 'firstName': 1, 'lastName': 1 })
+            .sort({ dateUpdated: -1 })
             .exec((err, moment) => {
             if (err) {
                 return res.status(500).json({

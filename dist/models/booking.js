@@ -60,5 +60,10 @@ const bookingSchema = new Schema({
     totalAmount: {
         type: Number
     },
+    remarks: {
+        type: String,
+        required: false,
+        default: ''
+    }
 });
 exports.default = mongoose_1.default.model('Booking', bookingSchema);

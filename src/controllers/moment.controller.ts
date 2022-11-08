@@ -17,12 +17,14 @@ export namespace MomentController{
         Moment
         .find(query)
         .populate('userId', {'firstName': 1,'lastName': 1})
+        .sort({dateUpdated:-1})
         .exec((err: any, moment: any)=>{
             if (err) {
                 return res.status(500).json({
                     err: err
                 });
             }
+
             return res.status(200).json({
                 payload: moment
             })
