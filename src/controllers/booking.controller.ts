@@ -137,14 +137,17 @@ export namespace BookingController{
        if(startDate) query['startDate'] = {$gte: new Date(startDate!.toString())}
        if(endDate) query['endDate'] = {$lte: new Date(endDate!.toString())}
        if(status) query['status'] = status
-       Booking.find(query,(error: any, bookings: any) =>{
-            if(error){
-                return res.status(500).json({
-                    err: error
-                    });
-            }
-            return res.status(201).json({payload: bookings})
-       })
+       Booking
+       .find(query)
+       .populate('userId', {'firstName': 1,'lastName': 1})
+       .exec((error: any, bookings: any) =>{
+        if(error){
+            return res.status(500).json({
+                err: error
+                });
+        }
+        return res.status(201).json({payload: bookings})
+   })
     }
 
     export const getOneBooking: RequestHandler = (req, res, next) => {

@@ -123,7 +123,10 @@ var BookingController;
             query['endDate'] = { $lte: new Date(endDate.toString()) };
         if (status)
             query['status'] = status;
-        booking_1.default.find(query, (error, bookings) => {
+        booking_1.default
+            .find(query)
+            .populate('userId', { 'firstName': 1, 'lastName': 1 })
+            .exec((error, bookings) => {
             if (error) {
                 return res.status(500).json({
                     err: error
