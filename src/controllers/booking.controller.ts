@@ -135,7 +135,7 @@ export namespace BookingController{
        if(villaId) query['villaId'] = villaId
        if(userId) query['userId'] = userId
        if(startDate) query['startDate'] = {$gte: new Date(startDate!.toString())}
-       if(endDate) query['endDate'] = {$gte: new Date(endDate!.toString())}
+       if(endDate) query['endDate'] = {$lte: new Date(endDate!.toString())}
        if(status) query['status'] = status
        Booking.find(query,(error: any, bookings: any) =>{
             if(error){

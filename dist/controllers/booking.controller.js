@@ -120,7 +120,7 @@ var BookingController;
         if (startDate)
             query['startDate'] = { $gte: new Date(startDate.toString()) };
         if (endDate)
-            query['endDate'] = { $gte: new Date(endDate.toString()) };
+            query['endDate'] = { $lte: new Date(endDate.toString()) };
         if (status)
             query['status'] = status;
         booking_1.default.find(query, (error, bookings) => {
