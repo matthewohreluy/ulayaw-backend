@@ -2,12 +2,39 @@ import { RequestHandler } from 'express';
 import Booking from '../models/booking';
 import Villa from '../models/villa';
 import Paymongo from 'paymongo';
+import { CronJob } from 'cron';
 
+// before archive 1 year
 
-const paymongo = new Paymongo('sk_test_5pYcXMAsP3rWCERk6A8yDDTs');
+let archiveJob = new CronJob({
+    cronTime: '0 1 * * *',
+    onTick: ()=>{
+        let currentDate = new Date();
+        let yearLessDate = currentDate.setDate(currentDate.getDate() - 365);
+        let yearand3MonthsDate = currentDate.setDate(currentDate.getDate() - 455);
+        Booking.updateMany({
+            dateBooked: {
+                $lt:yearLessDate
+            }
+        },
+        {$set: {status:'Archived'}})
+
+        Booking.deleteMany({
+            dateBooked: {
+                $lt:yearand3MonthsDate,
+                status: 'Archived'
+            }
+        })
+    }
+})
+
+// after 3 months
+
+const paymongo = new Paymongo('sk_live_Gj6a42YVzY5jDPEiQHZcpSoW');
 
 
 export namespace BookingController{
+ 
     export const payBooking: RequestHandler = async (req, res, next) =>{
         const id = req.params.id
         // async function listWebhooks () {
@@ -153,7 +180,10 @@ export namespace BookingController{
     export const getOneBooking: RequestHandler = (req, res, next) => {
         // get id
         const id = req.params.id;
-        Booking.findById({_id: id}, (err: any, booking: any)=>{
+        Booking
+        .findById({_id: id})
+        .sort({dateBooked: -1})
+        .exec((err: any, booking: any)=>{
             if(err){
                 return res.status(500).json({
                     err: err

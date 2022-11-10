@@ -7,7 +7,29 @@ exports.BookingController = void 0;
 const booking_1 = __importDefault(require("../models/booking"));
 const villa_1 = __importDefault(require("../models/villa"));
 const paymongo_1 = __importDefault(require("paymongo"));
-const paymongo = new paymongo_1.default('sk_test_5pYcXMAsP3rWCERk6A8yDDTs');
+const cron_1 = require("cron");
+// before archive 1 year
+let archiveJob = new cron_1.CronJob({
+    cronTime: '0 1 * * *',
+    onTick: () => {
+        let currentDate = new Date();
+        let yearLessDate = currentDate.setDate(currentDate.getDate() - 365);
+        let yearand3MonthsDate = currentDate.setDate(currentDate.getDate() - 455);
+        booking_1.default.updateMany({
+            dateBooked: {
+                $lt: yearLessDate
+            }
+        }, { $set: { status: 'Archived' } });
+        booking_1.default.deleteMany({
+            dateBooked: {
+                $lt: yearand3MonthsDate,
+                status: 'Archived'
+            }
+        });
+    }
+});
+// after 3 months
+const paymongo = new paymongo_1.default('sk_live_Gj6a42YVzY5jDPEiQHZcpSoW');
 var BookingController;
 (function (BookingController) {
     BookingController.payBooking = async (req, res, next) => {
@@ -138,7 +160,10 @@ var BookingController;
     BookingController.getOneBooking = (req, res, next) => {
         // get id
         const id = req.params.id;
-        booking_1.default.findById({ _id: id }, (err, booking) => {
+        booking_1.default
+            .findById({ _id: id })
+            .sort({ dateBooked: -1 })
+            .exec((err, booking) => {
             if (err) {
                 return res.status(500).json({
                     err: err
