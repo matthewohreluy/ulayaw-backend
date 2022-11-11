@@ -6,6 +6,7 @@ import BookingRoutes from './booking.route';
 import UserRoutes from './user.route';
 import MomentRoutes from './moment.route';
 import AdminRoutes from './admin.route';
+import ApplicationRoutes from './application.route';
 
 export const routes: [string, Router][] = [
     ['/feed',FeedRoutes],
@@ -15,4 +16,5 @@ export const routes: [string, Router][] = [
     ['/user', UserRoutes],
     ['/moment', MomentRoutes],
     ['/admin', AdminRoutes],
+    ['/application', ApplicationRoutes],
 ]
