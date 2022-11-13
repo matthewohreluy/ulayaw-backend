@@ -60,7 +60,6 @@ var BookingController;
         }
     };
     BookingController.webhookListen = async (req, res, next) => {
-        console.log({ payload: req.body, data: req.body.data.attributes.data });
         let sourceData = req.body.data.attributes.data;
         // create payment
         const data = {
@@ -77,8 +76,19 @@ var BookingController;
         };
         const result = await paymongo.payments.create(data);
         console.log(result);
-        // create payment, find booking with source id
-        return res.status(200).json({ payload: req.body, data: req.body.data.data });
+        if (result.data.attributes.status === 'paid') {
+            booking_1.default.findOneAndUpdate({ paymentId: sourceData.id }, { isPaid: true }, { new: true }, (err, booking) => {
+                if (err) {
+                    return res.status(500).json({
+                        err: err
+                    });
+                }
+                return res.status(200).json({ message: 'Booking Paid', payload: booking });
+            });
+        }
+        else {
+            return res.status(400).json({ message: 'Payment Failed' });
+        }
     };
     BookingController.payBooking = (req, res, next) => {
         const id = req.params.id;
@@ -105,7 +115,7 @@ var BookingController;
             try {
                 const result = await paymongo.sources.create(data);
                 // update booking attach paymentId
-                booking_1.default.findByIdAndUpdate({ _id: id }, { paymentId: result.data.id }, { new: true }, (err, user) => {
+                booking_1.default.findByIdAndUpdate({ _id: id }, { paymentId: result.data.id }, { new: true }, (err, booking) => {
                     if (err) {
                         return res.status(500).json({
                             err: err
