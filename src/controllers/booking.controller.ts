@@ -53,7 +53,8 @@ export namespace BookingController{
           }
     }
     export const webhookListen: RequestHandler = (req, res, next) =>{
-        
+        console.log(req.body);
+        return res.status(200);
     }
     
     export const payBooking: RequestHandler = async (req, res, next) =>{

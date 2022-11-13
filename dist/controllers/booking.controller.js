@@ -51,6 +51,8 @@ var BookingController;
         }
     };
     BookingController.webhookListen = (req, res, next) => {
+        console.log(req.body);
+        return res.status(200);
     };
     BookingController.payBooking = async (req, res, next) => {
         const id = req.params.id;
