@@ -12,6 +12,10 @@ const bookingSchema = new Schema({
     ref: 'User',
     required: true
    },
+   paymentId:{
+      type: String,
+      required: false
+   },
    startDate:{
     type: Date,
     required: true

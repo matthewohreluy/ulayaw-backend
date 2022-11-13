@@ -61,37 +61,47 @@ var BookingController;
     };
     BookingController.webhookListen = (req, res, next) => {
         console.log(req.body);
-        return res.status(200).json({ payload: req.body });
+        // create payment
+        return res.status(200).json({ payload: req.body, data: req.body.data.data });
     };
-    BookingController.payBooking = async (req, res, next) => {
+    BookingController.payBooking = (req, res, next) => {
         const id = req.params.id;
-        // async function listWebhooks () {
-        //     return paymongo.webhooks.list();
-        //   }
-        // listWebhooks()
-        // .then((result) => { console.log(result); })
-        // .catch();
-        console.log('test');
-        const data = {
-            data: {
-                attributes: {
-                    type: 'gcash',
-                    amount: 10000,
-                    currency: 'PHP',
-                    redirect: {
-                        success: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/success.html?id=abcdefg',
-                        failed: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/failure.html'
+        // find booking
+        booking_1.default.findById({ _id: id }, async (err, booking) => {
+            if (err) {
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            const data = {
+                data: {
+                    attributes: {
+                        type: 'gcash',
+                        amount: 10000,
+                        currency: 'PHP',
+                        redirect: {
+                            success: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/success.html?id=abcdefg',
+                            failed: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/failure.html'
+                        }
                     }
                 }
+            };
+            try {
+                const result = await paymongo.sources.create(data);
+                // update booking attach paymentId
+                booking_1.default.findByIdAndUpdate({ _id: id }, { paymentId: result.data.id }, { new: true }, (err, user) => {
+                    if (err) {
+                        return res.status(500).json({
+                            err: err
+                        });
+                    }
+                    return res.status(200).json(result);
+                });
             }
-        };
-        try {
-            const result = await paymongo.sources.create(data);
-            return res.status(200).json(result);
-        }
-        catch (error) {
-            console.error(error);
-        }
+            catch (error) {
+                console.error(error);
+            }
+        });
     };
     BookingController.successPay = async (req, res, next) => {
         console.log('test');

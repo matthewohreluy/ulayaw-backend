@@ -63,39 +63,52 @@ export namespace BookingController{
     }
     export const webhookListen: RequestHandler = (req, res, next) =>{
         console.log(req.body);
-        return res.status(200).json({payload: req.body});
+        // create payment
+        return res.status(200).json({payload: req.body, data: req.body.data.data});
     }
     
-    export const payBooking: RequestHandler = async (req, res, next) =>{
+    export const payBooking: RequestHandler =  (req, res, next) =>{
         const id = req.params.id
-        // async function listWebhooks () {
-        //     return paymongo.webhooks.list();
-        //   }
-
-        // listWebhooks()
-        // .then((result) => { console.log(result); })
-        // .catch();
-        console.log('test')
-        const data ={
-            data: {
-                attributes: {
-                  type: 'gcash',
-                  amount: 10000, // PHP200,
-                  currency: 'PHP',
-                  redirect: {
-                    success: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/success.html?id=abcdefg',
-                    failed: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/failure.html'
-                  }
-                }
-              }
-        }
        
-        try{
-            const result = await paymongo.sources.create(data);
-            return res.status(200).json(result);
-        }catch (error) {
-            console.error(error);
-          }
+        // find booking
+        Booking.findById({_id: id}, async (err: any, booking: any)=>{
+            if(err){
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            const data ={
+                data: {
+                    attributes: {
+                      type: 'gcash',
+                      amount: 10000, // PHP200,
+                      currency: 'PHP',
+                      redirect: {
+                        success: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/success.html?id=abcdefg',
+                        failed: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/failure.html'
+                      }
+                    }
+                  }
+            }
+           
+            try{
+                const result = await paymongo.sources.create(data);
+                // update booking attach paymentId
+                Booking.findByIdAndUpdate({_id: id}, {paymentId: result.data.id },{new: true}, (err: any, user: any)=>{
+                    if(err){
+                        return res.status(500).json({
+                            err: err
+                        });
+                    }
+                    return res.status(200).json(result);
+                })
+              
+            }catch (error) {
+                console.error(error);
+              }
+        })
+
+       
     }
 
     export const successPay: RequestHandler = async (req, res, next) =>{
