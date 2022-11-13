@@ -110,7 +110,7 @@ export namespace BookingController{
                       amount: 10000, // PHP200,
                       currency: 'PHP',
                       redirect: {
-                        success: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/success.html?id=abcdefg',
+                        success: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/success.html?id=' +id,
                         failed: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/failure.html'
                       }
                     }
