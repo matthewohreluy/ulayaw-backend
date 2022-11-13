@@ -12,6 +12,7 @@ const user_route_1 = __importDefault(require("./user.route"));
 const moment_route_1 = __importDefault(require("./moment.route"));
 const admin_route_1 = __importDefault(require("./admin.route"));
 const application_route_1 = __importDefault(require("./application.route"));
+const webhook_route_1 = __importDefault(require("./webhook.route"));
 exports.routes = [
     ['/feed', feed_route_1.default],
     ['/auth', auth_route_1.default],
@@ -21,4 +22,5 @@ exports.routes = [
     ['/moment', moment_route_1.default],
     ['/admin', admin_route_1.default],
     ['/application', application_route_1.default],
+    ['/webhook', webhook_route_1.default],
 ];

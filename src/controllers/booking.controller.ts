@@ -35,6 +35,15 @@ const paymongo = new Paymongo('sk_test_rYiCsW2PbSTuDgVxYwX8y68a');
 
 
 export namespace BookingController{
+    export const webhookGet: RequestHandler = async (req, res, next) =>{
+        try{
+            const result = await paymongo.webhooks.list();
+            return res.status(200).json(result);
+        }catch (error) {
+            return res.status(500).json(error);
+          } 
+    }
+
     export const webhookAdd: RequestHandler = async (req, res, next) =>{
         const data = {
             data: {
@@ -54,7 +63,7 @@ export namespace BookingController{
     }
     export const webhookListen: RequestHandler = (req, res, next) =>{
         console.log(req.body);
-        return res.status(200);
+        return res.status(200).json({payload: req.body});
     }
     
     export const payBooking: RequestHandler = async (req, res, next) =>{

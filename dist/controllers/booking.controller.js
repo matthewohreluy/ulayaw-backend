@@ -33,6 +33,15 @@ const paymongo = new paymongo_1.default('sk_test_rYiCsW2PbSTuDgVxYwX8y68a');
 // const paymongo = new Paymongo('sk_live_Gj6a42YVzY5jDPEiQHZcpSoW');
 var BookingController;
 (function (BookingController) {
+    BookingController.webhookGet = async (req, res, next) => {
+        try {
+            const result = await paymongo.webhooks.list();
+            return res.status(200).json(result);
+        }
+        catch (error) {
+            return res.status(500).json(error);
+        }
+    };
     BookingController.webhookAdd = async (req, res, next) => {
         const data = {
             data: {
@@ -52,7 +61,7 @@ var BookingController;
     };
     BookingController.webhookListen = (req, res, next) => {
         console.log(req.body);
-        return res.status(200);
+        return res.status(200).json({ payload: req.body });
     };
     BookingController.payBooking = async (req, res, next) => {
         const id = req.params.id;
