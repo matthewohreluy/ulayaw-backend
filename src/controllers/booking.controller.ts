@@ -63,8 +63,8 @@ export namespace BookingController{
     }
     export const webhookListen: RequestHandler = (req, res, next) =>{
         console.log(req.body);
-        
-        // create payment
+        console.log({payload: req.body, data: req.body.data.data});
+        // create payment, find booking with source id
         return res.status(200).json({payload: req.body, data: req.body.data.data});
     }
     
