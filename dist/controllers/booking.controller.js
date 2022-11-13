@@ -61,7 +61,7 @@ var BookingController;
     };
     BookingController.webhookListen = (req, res, next) => {
         console.log(req.body);
-        console.log({ payload: req.body, data: req.body.data.data });
+        console.log({ payload: req.body, data: req.body.data.attributes.data });
         // create payment, find booking with source id
         return res.status(200).json({ payload: req.body, data: req.body.data.data });
     };
