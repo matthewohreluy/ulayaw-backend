@@ -61,9 +61,24 @@ export namespace BookingController{
             return res.status(500).json(error);
           }
     }
-    export const webhookListen: RequestHandler = (req, res, next) =>{
-        console.log(req.body);
+    export const webhookListen: RequestHandler = async (req, res, next) =>{
         console.log({payload: req.body, data: req.body.data.attributes.data});
+        let sourceData = req.body.data.attributes.data;
+        // create payment
+        const data = {
+            data: {
+              attributes: {
+                amount: sourceData.attributes.amount,
+                currency: 'PHP',
+                source: {
+                  id: sourceData.id, // Id of the Source resource.
+                  type: 'source', // 
+                }
+              }
+            }
+          }
+        const result = await paymongo.payments.create(data);
+        console.log(result);
         // create payment, find booking with source id
         return res.status(200).json({payload: req.body, data: req.body.data.data});
     }
