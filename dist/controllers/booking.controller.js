@@ -29,9 +29,29 @@ let archiveJob = new cron_1.CronJob({
     }
 });
 // after 3 months
-const paymongo = new paymongo_1.default('sk_live_Gj6a42YVzY5jDPEiQHZcpSoW');
+const paymongo = new paymongo_1.default('sk_test_rYiCsW2PbSTuDgVxYwX8y68a');
+// const paymongo = new Paymongo('sk_live_Gj6a42YVzY5jDPEiQHZcpSoW');
 var BookingController;
 (function (BookingController) {
+    BookingController.webhookAdd = async (req, res, next) => {
+        const data = {
+            data: {
+                attributes: {
+                    url: 'https://ulayaw-backend.herokuapp.com/webhook/listen',
+                    events: ['source.chargeable'] // The only event supported for now is 'source.chargeable'.
+                }
+            }
+        };
+        try {
+            const result = await paymongo.webhooks.create(data);
+            return res.status(200).json(result);
+        }
+        catch (error) {
+            return res.status(500).json(error);
+        }
+    };
+    BookingController.webhookListen = (req, res, next) => {
+    };
     BookingController.payBooking = async (req, res, next) => {
         const id = req.params.id;
         // async function listWebhooks () {
@@ -40,6 +60,7 @@ var BookingController;
         // listWebhooks()
         // .then((result) => { console.log(result); })
         // .catch();
+        console.log('test');
         const data = {
             data: {
                 attributes: {
@@ -47,8 +68,8 @@ var BookingController;
                     amount: 10000,
                     currency: 'PHP',
                     redirect: {
-                        success: 'http://localhost:8080/booking/success/payment/',
-                        failed: 'https://www.google.com'
+                        success: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/success.html?id=abcdefg',
+                        failed: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/failure.html'
                     }
                 }
             }
@@ -62,7 +83,8 @@ var BookingController;
         }
     };
     BookingController.successPay = async (req, res, next) => {
-        const data = 'src_ahiUE6X7o8s7ecZc23ZPzt8i';
+        console.log('test');
+        const data = 'src_n4edYTf96NThzNDbKhgkN1YR';
         try {
             const result = await paymongo.sources.retrieve(data);
             return res.status(200).json(result);

@@ -11,8 +11,10 @@ router.post('/add',isAuth,[
     body('bookingType').not().isEmpty(),
 ],BookingController.addBooking);
 router.get('/get',isAuth,BookingController.getBookings);
+router.get('/success',isAuth,BookingController.successPay);
 router.post('/pay/:id',isAuth,BookingController.payBooking);
-router.get('/sucess/payment',isAuth,BookingController.successPay);
+router.post('/webhook/add', BookingController.webhookAdd)
+router.post('webhook/listen',BookingController.webhookListen);
 router.get('/getOne/:id',isAuth, BookingController.getOneBooking);
 router.put('/update/:id',isAuth, BookingController.updateBooking);
 

@@ -30,11 +30,32 @@ let archiveJob = new CronJob({
 
 // after 3 months
 
-const paymongo = new Paymongo('sk_live_Gj6a42YVzY5jDPEiQHZcpSoW');
+const paymongo = new Paymongo('sk_test_rYiCsW2PbSTuDgVxYwX8y68a');
+// const paymongo = new Paymongo('sk_live_Gj6a42YVzY5jDPEiQHZcpSoW');
 
 
 export namespace BookingController{
- 
+    export const webhookAdd: RequestHandler = async (req, res, next) =>{
+        const data = {
+            data: {
+              attributes: {
+                url: 'https://ulayaw-backend.herokuapp.com/webhook/listen', // Developer's note: this is unique in paymongo. You can't create multiple webhooks with same url.
+                events: ['source.chargeable'] // The only event supported for now is 'source.chargeable'.
+              }
+            }
+          }
+         
+          try{
+            const result = await paymongo.webhooks.create(data);
+            return res.status(200).json(result);
+        }catch (error) {
+            return res.status(500).json(error);
+          }
+    }
+    export const webhookListen: RequestHandler = (req, res, next) =>{
+        
+    }
+    
     export const payBooking: RequestHandler = async (req, res, next) =>{
         const id = req.params.id
         // async function listWebhooks () {
@@ -44,6 +65,7 @@ export namespace BookingController{
         // listWebhooks()
         // .then((result) => { console.log(result); })
         // .catch();
+        console.log('test')
         const data ={
             data: {
                 attributes: {
@@ -51,8 +73,8 @@ export namespace BookingController{
                   amount: 10000, // PHP200,
                   currency: 'PHP',
                   redirect: {
-                    success: 'http://localhost:8080/booking/success/payment/',
-                    failed: 'https://www.google.com'
+                    success: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/success.html?id=abcdefg',
+                    failed: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/failure.html'
                   }
                 }
               }
@@ -68,15 +90,15 @@ export namespace BookingController{
 
     export const successPay: RequestHandler = async (req, res, next) =>{
         
-    
-        const data ='src_ahiUE6X7o8s7ecZc23ZPzt8i'
-       
+        console.log('test');
+        const data ='src_n4edYTf96NThzNDbKhgkN1YR'
+        
         try{
             const result = await paymongo.sources.retrieve(data);
             return res.status(200).json(result);
         }catch (error) {
             console.error(error);
-          }
+          }  
     }
 
     export const addBooking: RequestHandler = (req, res, next) =>{

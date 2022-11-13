@@ -12,8 +12,10 @@ router.post('/add', isAuth_util_1.isAuth, [
     (0, express_validator_1.body)('bookingType').not().isEmpty(),
 ], booking_controller_1.BookingController.addBooking);
 router.get('/get', isAuth_util_1.isAuth, booking_controller_1.BookingController.getBookings);
+router.get('/success', isAuth_util_1.isAuth, booking_controller_1.BookingController.successPay);
 router.post('/pay/:id', isAuth_util_1.isAuth, booking_controller_1.BookingController.payBooking);
-router.get('/sucess/payment', isAuth_util_1.isAuth, booking_controller_1.BookingController.successPay);
+router.post('/webhook/add', booking_controller_1.BookingController.webhookAdd);
+router.post('webhook/listen', booking_controller_1.BookingController.webhookListen);
 router.get('/getOne/:id', isAuth_util_1.isAuth, booking_controller_1.BookingController.getOneBooking);
 router.put('/update/:id', isAuth_util_1.isAuth, booking_controller_1.BookingController.updateBooking);
 exports.default = router;
