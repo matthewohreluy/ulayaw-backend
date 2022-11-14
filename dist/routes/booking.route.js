@@ -12,7 +12,6 @@ router.post('/add', isAuth_util_1.isAuth, [
     (0, express_validator_1.body)('bookingType').not().isEmpty(),
 ], booking_controller_1.BookingController.addBooking);
 router.get('/get', isAuth_util_1.isAuth, booking_controller_1.BookingController.getBookings);
-router.get('/success', isAuth_util_1.isAuth, booking_controller_1.BookingController.successPay);
 router.post('/pay/:id', isAuth_util_1.isAuth, booking_controller_1.BookingController.payBooking);
 router.post('/webhook/add', booking_controller_1.BookingController.webhookAdd);
 router.get('/webhook/get', booking_controller_1.BookingController.webhookGet);

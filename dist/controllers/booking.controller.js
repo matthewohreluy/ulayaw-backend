@@ -75,7 +75,6 @@ var BookingController;
             }
         };
         const result = await paymongo.payments.create(data);
-        console.log(result);
         if (result.data.attributes.status === 'paid') {
             booking_1.default.findOneAndUpdate({ paymentId: sourceData.id }, { isPaid: true }, { new: true }, (err, booking) => {
                 if (err) {
@@ -99,11 +98,12 @@ var BookingController;
                     err: err
                 });
             }
+            const amountToPay = booking.paymentType === 'Full' ? booking.totalAmount : booking.totalAmount / 2;
             const data = {
                 data: {
                     attributes: {
                         type: 'gcash',
-                        amount: 10000,
+                        amount: amountToPay,
                         currency: 'PHP',
                         redirect: {
                             success: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/success.html?id=' + id,
@@ -129,17 +129,16 @@ var BookingController;
             }
         });
     };
-    BookingController.successPay = async (req, res, next) => {
-        console.log('test');
-        const data = 'src_n4edYTf96NThzNDbKhgkN1YR';
-        try {
-            const result = await paymongo.sources.retrieve(data);
-            return res.status(200).json(result);
-        }
-        catch (error) {
-            console.error(error);
-        }
-    };
+    // export const successPay: RequestHandler = async (req, res, next) =>{
+    //     console.log('test');
+    //     const data ='src_n4edYTf96NThzNDbKhgkN1YR'
+    //     try{
+    //         const result = await paymongo.sources.retrieve(data);
+    //         return res.status(200).json(result);
+    //     }catch (error) {
+    //         console.error(error);
+    //       }  
+    // }
     BookingController.addBooking = (req, res, next) => {
         const { villaId, userId, startDate, endDate, bookingType, noOfGuests, totalAmount, addOns } = req.body;
         // validate startdate, enddate
