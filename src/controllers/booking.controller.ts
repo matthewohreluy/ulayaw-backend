@@ -77,7 +77,6 @@ export namespace BookingController{
             }
           }
         const result = await paymongo.payments.create(data);
-        console.log(result);
         if(result.data.attributes.status === 'paid'){
             Booking.findOneAndUpdate({paymentId: sourceData.id}, {isPaid: true },{new: true}, (err: any, booking: any)=>{
                 if(err){
@@ -90,7 +89,6 @@ export namespace BookingController{
         }else{
             return res.status(400).json({message:'Payment Failed'});
         }
-       
     }
     
     export const payBooking: RequestHandler =  (req, res, next) =>{
@@ -103,11 +101,12 @@ export namespace BookingController{
                     err: err
                 });
             }
+            const amountToPay = booking.paymentType === 'Full' ? booking.totalAmount : booking.totalAmount/2;
             const data ={
                 data: {
                     attributes: {
                       type: 'gcash',
-                      amount: 10000, // PHP200,
+                      amount: amountToPay, 
                       currency: 'PHP',
                       redirect: {
                         success: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/success.html?id=' +id,
@@ -137,18 +136,18 @@ export namespace BookingController{
        
     }
 
-    export const successPay: RequestHandler = async (req, res, next) =>{
+    // export const successPay: RequestHandler = async (req, res, next) =>{
         
-        console.log('test');
-        const data ='src_n4edYTf96NThzNDbKhgkN1YR'
+    //     console.log('test');
+    //     const data ='src_n4edYTf96NThzNDbKhgkN1YR'
         
-        try{
-            const result = await paymongo.sources.retrieve(data);
-            return res.status(200).json(result);
-        }catch (error) {
-            console.error(error);
-          }  
-    }
+    //     try{
+    //         const result = await paymongo.sources.retrieve(data);
+    //         return res.status(200).json(result);
+    //     }catch (error) {
+    //         console.error(error);
+    //       }  
+    // }
 
     export const addBooking: RequestHandler = (req, res, next) =>{
         const {

@@ -11,7 +11,6 @@ router.post('/add',isAuth,[
     body('bookingType').not().isEmpty(),
 ],BookingController.addBooking);
 router.get('/get',isAuth,BookingController.getBookings);
-router.get('/success',isAuth,BookingController.successPay);
 router.post('/pay/:id',isAuth,BookingController.payBooking);
 router.post('/webhook/add', BookingController.webhookAdd)
 router.get('/webhook/get',BookingController.webhookGet);
