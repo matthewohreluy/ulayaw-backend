@@ -91,6 +91,7 @@ var BookingController;
     };
     BookingController.payBooking = (req, res, next) => {
         const id = req.params.id;
+        const paymentType = req.body.paymentType;
         // find booking
         booking_1.default.findById({ _id: id }, async (err, booking) => {
             if (err) {
@@ -98,7 +99,7 @@ var BookingController;
                     err: err
                 });
             }
-            const amountToPay = booking.paymentType === 'Full' ? booking.totalAmount : booking.totalAmount / 2;
+            const amountToPay = paymentType === 'Full' ? booking.totalAmount : booking.totalAmount / 2;
             const data = {
                 data: {
                     attributes: {
@@ -115,7 +116,7 @@ var BookingController;
             try {
                 const result = await paymongo.sources.create(data);
                 // update booking attach paymentId
-                booking_1.default.findByIdAndUpdate({ _id: id }, { paymentId: result.data.id }, { new: true }, (err, booking) => {
+                booking_1.default.findByIdAndUpdate({ _id: id }, { paymentId: result.data.id, paymentType: paymentType }, { new: true }, (err, booking) => {
                     if (err) {
                         return res.status(500).json({
                             err: err

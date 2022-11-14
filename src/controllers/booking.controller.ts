@@ -93,7 +93,7 @@ export namespace BookingController{
     
     export const payBooking: RequestHandler =  (req, res, next) =>{
         const id = req.params.id
-       
+        const paymentType = req.body.paymentType;
         // find booking
         Booking.findById({_id: id}, async (err: any, booking: any)=>{
             if(err){
@@ -101,7 +101,7 @@ export namespace BookingController{
                     err: err
                 });
             }
-            const amountToPay = booking.paymentType === 'Full' ? booking.totalAmount : booking.totalAmount/2;
+            const amountToPay = paymentType === 'Full' ? booking.totalAmount : booking.totalAmount/2;
             const data ={
                 data: {
                     attributes: {
@@ -119,7 +119,7 @@ export namespace BookingController{
             try{
                 const result = await paymongo.sources.create(data);
                 // update booking attach paymentId
-                Booking.findByIdAndUpdate({_id: id}, {paymentId: result.data.id },{new: true}, (err: any, booking: any)=>{
+                Booking.findByIdAndUpdate({_id: id}, {paymentId: result.data.id, paymentType: paymentType },{new: true}, (err: any, booking: any)=>{
                     if(err){
                         return res.status(500).json({
                             err: err
