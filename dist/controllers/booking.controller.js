@@ -234,6 +234,7 @@ var BookingController;
         booking_1.default
             .findById({ _id: id })
             .sort({ dateBooked: -1 })
+            .populate('userId')
             .exec((err, booking) => {
             if (err) {
                 return res.status(500).json({

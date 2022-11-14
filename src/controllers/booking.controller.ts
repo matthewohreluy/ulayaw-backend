@@ -256,6 +256,7 @@ export namespace BookingController{
         Booking
         .findById({_id: id})
         .sort({dateBooked: -1})
+        .populate('userId')
         .exec((err: any, booking: any)=>{
             if(err){
                 return res.status(500).json({
