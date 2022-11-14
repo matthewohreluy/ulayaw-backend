@@ -75,21 +75,28 @@ var BookingController;
                 }
             }
         };
-        const result = await paymongo.payments.create(data);
-        if (result.data.attributes.status === 'paid') {
-            booking_1.default.findOneAndUpdate({ paymentId: sourceData.id }, { isPaid: true }, { new: true }, async (err, booking) => {
-                const qrCode = await qrcode_1.default.toDataURL(`https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/c-receipt.html?id=${booking._id}`);
-                if (err) {
-                    return res.status(500).json({
-                        err: err
-                    });
-                }
-                return res.status(200).json({ message: 'Booking Paid', payload: booking });
-            });
-        }
-        else {
-            return res.status(400).json({ message: 'Payment Failed' });
-        }
+        booking_1.default.findOne({ paymentId: sourceData.id }, async (error, booking1) => {
+            if (error) {
+                return res.status(500).json({
+                    err: error
+                });
+            }
+            const qrCode = await qrcode_1.default.toDataURL(`https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/c-receipt.html?id=${booking1._id}`);
+            const result = await paymongo.payments.create(data);
+            if (result.data.attributes.status === 'paid') {
+                booking_1.default.findOneAndUpdate({ paymentId: sourceData.id, qrCode: qrCode }, { isPaid: true }, { new: true }, (err, booking) => {
+                    if (err) {
+                        return res.status(500).json({
+                            err: err
+                        });
+                    }
+                    return res.status(200).json({ message: 'Booking Paid', payload: booking });
+                });
+            }
+            else {
+                return res.status(400).json({ message: 'Payment Failed' });
+            }
+        });
     };
     BookingController.payBooking = (req, res, next) => {
         const id = req.params.id;

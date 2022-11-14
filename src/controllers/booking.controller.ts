@@ -77,21 +77,29 @@ export namespace BookingController{
               }
             }
           }
-        const result = await paymongo.payments.create(data);
-        if(result.data.attributes.status === 'paid'){
-            Booking.findOneAndUpdate({paymentId: sourceData.id}, {isPaid: true },{new: true}, async (err: any, booking: any)=>{
-                const qrCode = await QRCode.toDataURL(`https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/c-receipt.html?id=${booking._id}`)
-
-                if(err){
-                    return res.status(500).json({
-                        err: err
-                    });
-                }
-                return res.status(200).json({message: 'Booking Paid', payload: booking});
-            })
-        }else{
-            return res.status(400).json({message:'Payment Failed'});
-        }
+        Booking.findOne({paymentId: sourceData.id}, async (error: any, booking1: any)=>{
+            if(error){
+                return res.status(500).json({
+                    err: error
+                });
+            }
+            const qrCode = await QRCode.toDataURL(`https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/c-receipt.html?id=${booking1._id}`);
+            const result = await paymongo.payments.create(data);
+            if(result.data.attributes.status === 'paid'){
+                Booking.findOneAndUpdate({paymentId: sourceData.id, qrCode: qrCode}, {isPaid: true },{new: true}, (err: any, booking: any)=>{
+                    if(err){
+                        return res.status(500).json({
+                            err: err
+                        });
+                    }
+                    return res.status(200).json({message: 'Booking Paid', payload: booking});
+                })
+            }else{
+                return res.status(400).json({message:'Payment Failed'});
+            }
+        }) 
+        
+        
     }
     
     export const payBooking: RequestHandler =  (req, res, next) =>{
