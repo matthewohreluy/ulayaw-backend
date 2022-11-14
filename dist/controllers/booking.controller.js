@@ -104,7 +104,7 @@ var BookingController;
                 data: {
                     attributes: {
                         type: 'gcash',
-                        amount: amountToPay,
+                        amount: amountToPay * 100,
                         currency: 'PHP',
                         redirect: {
                             success: 'https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/success.html?id=' + id,
