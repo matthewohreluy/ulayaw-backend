@@ -185,7 +185,7 @@ export namespace BookingController{
             .json({error: 400, message: 'Start date should not be greater than today', key: 'INVALIDDATEHIST'})
         }
         // validatebookingType
-        if(bookingType !== 'overnight' && bookingType !== 'daytour'){
+        if(bookingType !== 'overnight' && bookingType !== 'dayTour'){
             return res.status(400)
             .json({error: 400, message: 'Invalid booking type. keyword available: overnight or daytour', key: 'INVALIDBOOKINGTYPE'})
         }
