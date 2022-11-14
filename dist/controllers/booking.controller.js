@@ -8,6 +8,7 @@ const booking_1 = __importDefault(require("../models/booking"));
 const villa_1 = __importDefault(require("../models/villa"));
 const paymongo_1 = __importDefault(require("paymongo"));
 const cron_1 = require("cron");
+const qrcode_1 = __importDefault(require("qrcode"));
 // before archive 1 year
 let archiveJob = new cron_1.CronJob({
     cronTime: '0 1 * * *',
@@ -76,7 +77,8 @@ var BookingController;
         };
         const result = await paymongo.payments.create(data);
         if (result.data.attributes.status === 'paid') {
-            booking_1.default.findOneAndUpdate({ paymentId: sourceData.id }, { isPaid: true }, { new: true }, (err, booking) => {
+            booking_1.default.findOneAndUpdate({ paymentId: sourceData.id }, { isPaid: true }, { new: true }, async (err, booking) => {
+                const qrCode = await qrcode_1.default.toDataURL(`https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/c-receipt.html?id=${booking._id}`);
                 if (err) {
                     return res.status(500).json({
                         err: err

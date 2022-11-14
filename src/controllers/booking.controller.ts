@@ -3,6 +3,7 @@ import Booking from '../models/booking';
 import Villa from '../models/villa';
 import Paymongo from 'paymongo';
 import { CronJob } from 'cron';
+import QRCode from 'qrcode';
 
 // before archive 1 year
 
@@ -78,7 +79,9 @@ export namespace BookingController{
           }
         const result = await paymongo.payments.create(data);
         if(result.data.attributes.status === 'paid'){
-            Booking.findOneAndUpdate({paymentId: sourceData.id}, {isPaid: true },{new: true}, (err: any, booking: any)=>{
+            Booking.findOneAndUpdate({paymentId: sourceData.id}, {isPaid: true },{new: true}, async (err: any, booking: any)=>{
+                const qrCode = await QRCode.toDataURL(`https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/c-receipt.html?id=${booking._id}`)
+
                 if(err){
                     return res.status(500).json({
                         err: err

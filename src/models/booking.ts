@@ -16,6 +16,10 @@ const bookingSchema = new Schema({
       type: String,
       required: false
    },
+   qrCode: {
+      type: String,
+      required: false
+   },
    startDate:{
     type: Date,
     required: true
