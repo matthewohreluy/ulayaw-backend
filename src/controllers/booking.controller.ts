@@ -83,8 +83,8 @@ export namespace BookingController{
                     err: error
                 });
             }
-            const qrCode = await QRCode.toDataURL(`https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/c-receipt.html?id=${booking1._id}`);
-            const result = await paymongo.payments.create(data);
+            const [qrCode, result] = await Promise.all([QRCode.toDataURL(`https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/c-receipt.html?id=${booking1._id}`),paymongo.payments.create(data) ])
+            console.log(result);
             if(result.data.attributes.status === 'paid'){
                 Booking.findOneAndUpdate({paymentId: sourceData.id, qrCode: qrCode}, {isPaid: true },{new: true}, (err: any, booking: any)=>{
                     if(err){
