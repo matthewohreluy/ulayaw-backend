@@ -84,7 +84,7 @@ var BookingController;
             const [qrCode, result] = await Promise.all([qrcode_1.default.toDataURL(`https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/c-receipt.html?id=${booking1._id}`), paymongo.payments.create(data)]);
             console.log(result);
             if (result.data.attributes.status === 'paid') {
-                booking_1.default.findOneAndUpdate({ paymentId: sourceData.id }, { isPaid: true, qrCode: qrCode }, { new: true }, (err, booking) => {
+                booking_1.default.findOneAndUpdate({ paymentId: sourceData.id }, { isPaid: true, qrCode: qrCode, datePaid: new Date() }, { new: true }, (err, booking) => {
                     if (err) {
                         return res.status(500).json({
                             err: err
