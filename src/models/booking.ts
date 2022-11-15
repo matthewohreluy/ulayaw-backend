@@ -55,6 +55,10 @@ const bookingSchema = new Schema({
       required: true,
       default: 'Full'
    },
+   datePaid: {
+      type: Date,
+      required: false
+   },
    addOns:[
       {
          type: Schema.Types.Mixed,

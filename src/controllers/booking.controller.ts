@@ -86,7 +86,7 @@ export namespace BookingController{
             const [qrCode, result] = await Promise.all([QRCode.toDataURL(`https://ashy-coast-0c2d1cf00.1.azurestaticapps.net/c-receipt.html?id=${booking1._id}`),paymongo.payments.create(data) ])
             console.log(result);
             if(result.data.attributes.status === 'paid'){
-                Booking.findOneAndUpdate({paymentId: sourceData.id}, {isPaid: true,qrCode: qrCode },{new: true}, (err: any, booking: any)=>{
+                Booking.findOneAndUpdate({paymentId: sourceData.id}, {isPaid: true,qrCode: qrCode, datePaid: new Date() },{new: true}, (err: any, booking: any)=>{
                     if(err){
                         return res.status(500).json({
                             err: err
