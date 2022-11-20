@@ -1,3 +1,4 @@
+import { multer_villa } from './../middleware/util/multer.util';
 import { isAuth } from './../middleware/util/isAuth.util';
 import { Router } from "express";
 import { VillaController } from "../controllers/villa.controller";
@@ -18,6 +19,6 @@ router.post('/add', VillaController.addVilla);
 
 router.put('/update/:id',isAuth,VillaController.updateVilla);
 
-router.post('updateImage/:id', isAuth, VillaController.updateImageVilla);
+router.post('/updateImage/:id', isAuth,multer_villa, VillaController.updateImageVilla);
 
 export default router;

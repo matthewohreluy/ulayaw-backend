@@ -113,23 +113,21 @@ var VillaController;
     };
     VillaController.updateImageVilla = (req, res, next) => {
         const id = req.params.id;
-        let propertyName = '';
-        let propertyValue = '';
-        for (let key in req.body.data) {
-            if (key === 'image1' || key === 'image2' || key === 'image3') {
-                propertyName = key;
-                propertyValue = req.body.data[key];
-            }
-        }
-        if (propertyName) {
+        let propertyName = req.body.type;
+        console.log(req.body);
+        if (propertyName === 'image1' || propertyName === 'image2' || propertyName === 'image3') {
             villa_1.default.findOneAndUpdate({ _id: id }, {
                 [propertyName]: 'https://ulayaw-backend.herokuapp.com/moments/' + req.file.filename
-            }, { new: true }, (err, user) => {
+            }, { new: true }, (err, villa) => {
                 if (err) {
                     return res.status(500).json({
                         err: err
                     });
                 }
+                return res.status(200).json({
+                    payload: villa,
+                    key: 'UPDATEVILLAIMAGESUCCESS'
+                });
             });
         }
         else {

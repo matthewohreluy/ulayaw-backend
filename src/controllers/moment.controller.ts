@@ -44,7 +44,7 @@ export namespace MomentController{
                 err: err
             });
         }
-        console.log(moment);
+        console.log(req);
         if(booking.length > moment.length){
             // upload moment
             const newMoment = new Moment({

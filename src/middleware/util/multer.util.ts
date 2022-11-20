@@ -11,7 +11,7 @@ export const multer_moment = Multer({
     storage: fileStorage_moments
 }).single('file');
 
-const fileStorage_image1 = Multer.diskStorage({
+const fileStorage_image = Multer.diskStorage({
     destination: (req, file, cb)=>{
         cb(null, 'src/static/villa')
     },
@@ -20,6 +20,6 @@ const fileStorage_image1 = Multer.diskStorage({
     }
 })
 
-export const multer_image1 = Multer({
-    storage: fileStorage_moments
+export const multer_villa = Multer({
+    storage: fileStorage_image
 }).single('file');

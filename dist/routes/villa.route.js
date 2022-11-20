@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const multer_util_1 = require("./../middleware/util/multer.util");
 const isAuth_util_1 = require("./../middleware/util/isAuth.util");
 const express_1 = require("express");
 const villa_controller_1 = require("../controllers/villa.controller");
@@ -9,5 +10,5 @@ router.get('/getAvailable', villa_controller_1.VillaController.getAvailableVilla
 router.get('/getOne/:id', villa_controller_1.VillaController.getVilla);
 router.post('/add', villa_controller_1.VillaController.addVilla);
 router.put('/update/:id', isAuth_util_1.isAuth, villa_controller_1.VillaController.updateVilla);
-router.post('updateImage/:id', isAuth_util_1.isAuth, villa_controller_1.VillaController.updateImageVilla);
+router.post('/updateImage/:id', isAuth_util_1.isAuth, multer_util_1.multer_villa, villa_controller_1.VillaController.updateImageVilla);
 exports.default = router;
