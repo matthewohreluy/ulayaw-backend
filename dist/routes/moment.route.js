@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const multer_util_1 = require("./../middleware/util/multer.util");
 const isAuth_util_1 = require("../middleware/util/isAuth.util");
 const express_1 = require("express");
 const moment_controller_1 = require("../controllers/moment.controller");
 const router = (0, express_1.Router)();
 router.get('/get', isAuth_util_1.isAuth, moment_controller_1.MomentController.getAll);
-router.post('/upload', isAuth_util_1.isAuth, moment_controller_1.MomentController.upload);
+router.post('/upload', isAuth_util_1.isAuth, multer_util_1.multer_moment, moment_controller_1.MomentController.upload);
 router.put('/update/:id', isAuth_util_1.isAuth, moment_controller_1.MomentController.updateMoment);
 exports.default = router;
