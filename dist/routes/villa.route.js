@@ -9,4 +9,5 @@ router.get('/getAvailable', villa_controller_1.VillaController.getAvailableVilla
 router.get('/getOne/:id', villa_controller_1.VillaController.getVilla);
 router.post('/add', villa_controller_1.VillaController.addVilla);
 router.put('/update/:id', isAuth_util_1.isAuth, villa_controller_1.VillaController.updateVilla);
+router.post('updateImage/:id', isAuth_util_1.isAuth, villa_controller_1.VillaController.updateImageVilla);
 exports.default = router;

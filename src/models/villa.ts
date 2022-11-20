@@ -50,6 +50,18 @@ const villaSchema = new Schema({
     type: String,
     required: true
    },
+   image1:{
+      type: String,
+      required: false
+   },
+   image2:{
+      type: String,
+      required: false
+   },
+   image3:{
+      type: String,
+      required: false
+   },
    overnight:{
       type: villaDefinitionSchema,
       required: true

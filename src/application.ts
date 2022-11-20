@@ -46,6 +46,4 @@ export class App{
             console.log(`App listening on PORT: ${this.port}`);
         })
     }
-
-
 }

@@ -111,4 +111,31 @@ var VillaController;
             });
         });
     };
+    VillaController.updateImageVilla = (req, res, next) => {
+        const id = req.params.id;
+        let propertyName = '';
+        let propertyValue = '';
+        for (let key in req.body.data) {
+            if (key === 'image1' || key === 'image2' || key === 'image3') {
+                propertyName = key;
+                propertyValue = req.body.data[key];
+            }
+        }
+        if (propertyName) {
+            villa_1.default.findOneAndUpdate({ _id: id }, {
+                [propertyName]: 'https://ulayaw-backend.herokuapp.com/moments/' + req.file.filename
+            }, { new: true }, (err, user) => {
+                if (err) {
+                    return res.status(500).json({
+                        err: err
+                    });
+                }
+            });
+        }
+        else {
+            return res.status(500).json({
+                message: 'Image cannot be uploaded'
+            });
+        }
+    };
 })(VillaController = exports.VillaController || (exports.VillaController = {}));

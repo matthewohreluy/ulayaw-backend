@@ -18,4 +18,6 @@ router.post('/add', VillaController.addVilla);
 
 router.put('/update/:id',isAuth,VillaController.updateVilla);
 
+router.post('updateImage/:id', isAuth, VillaController.updateImageVilla);
+
 export default router;
