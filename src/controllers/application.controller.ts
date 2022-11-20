@@ -48,7 +48,7 @@ export namespace ApplicationController{
             }
             return res.status(200).json({
                 payload: application
-            })
+            });
         })
     }
 
