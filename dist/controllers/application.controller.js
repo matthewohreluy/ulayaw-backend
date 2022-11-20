@@ -37,6 +37,20 @@ var ApplicationController;
             });
         });
     };
+    ApplicationController.updateLogo = (req, res, next) => {
+        app_1.default.findByIdAndUpdate({ _id: '636e5d86a8823d1bddddb65d' }, {
+            logo: 'https://ulayaw-backend.herokuapp.com/logo/' + req.file.filename
+        }, { new: true }, (err, application) => {
+            if (err) {
+                return res.status(500).json({
+                    err: err
+                });
+            }
+            return res.status(200).json({
+                payload: application
+            });
+        });
+    };
     ApplicationController.addApp = (req, res, next) => {
         const id = req.params.id;
         const body = req.body;
