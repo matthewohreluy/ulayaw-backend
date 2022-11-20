@@ -12,7 +12,8 @@ router.post('/add',isAuth,[
 ],BookingController.addBooking);
 router.get('/get',isAuth,BookingController.getBookings);
 router.post('/pay/:id',isAuth,BookingController.payBooking);
-router.post('/webhook/add', BookingController.webhookAdd)
+router.post('/webhook/add', BookingController.webhookAdd);
+router.post('/webhook/disable', BookingController.webhookDisable);
 router.get('/webhook/get',BookingController.webhookGet);
 router.get('/getOne/:id',isAuth, BookingController.getOneBooking);
 router.put('/update/:id',isAuth, BookingController.updateBooking);

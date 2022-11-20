@@ -50,7 +50,7 @@ export namespace MomentController{
             const newMoment = new Moment({
                 userId: req.body.userId,
                 status: 'New',
-                imageUrl: 'https://ulayaw-backend.herokuapp.com/moments/' + req.file!.filename,
+                imageUrl: 'https://ulayaw-app.azurewebsites.net/moments/' + req.file!.filename,
                 description: req.body.description,
                 dateUpdated: new Date()
             })

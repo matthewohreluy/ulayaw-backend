@@ -47,13 +47,26 @@ var BookingController;
         const data = {
             data: {
                 attributes: {
-                    url: 'https://ulayaw-backend.herokuapp.com/webhook/listen',
+                    url: 'https://ulayaw-app.azurewebsites.net/webhook/listen',
                     events: ['source.chargeable'] // The only event supported for now is 'source.chargeable'.
                 }
             }
         };
         try {
             const result = await paymongo.webhooks.create(data);
+            return res.status(200).json(result);
+        }
+        catch (error) {
+            return res.status(500).json(error);
+        }
+    };
+    BookingController.webhookDisable = async (req, res, next) => {
+        const data = {
+            id: req.body.id,
+            action: 'disable'
+        };
+        try {
+            const result = await paymongo.webhooks.toggle(data.id, data.action);
             return res.status(200).json(result);
         }
         catch (error) {

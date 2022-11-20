@@ -117,7 +117,7 @@ var VillaController;
         console.log(req.body);
         if (propertyName === 'image1' || propertyName === 'image2' || propertyName === 'image3') {
             villa_1.default.findOneAndUpdate({ _id: id }, {
-                [propertyName]: 'https://ulayaw-backend.herokuapp.com/villa/' + req.file.filename
+                [propertyName]: 'https://ulayaw-app.azurewebsites.net/villa/' + req.file.filename
             }, { new: true }, (err, villa) => {
                 if (err) {
                     return res.status(500).json({

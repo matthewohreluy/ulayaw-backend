@@ -124,7 +124,7 @@ export namespace VillaController{
         console.log(req.body);
         if(propertyName === 'image1' || propertyName === 'image2' || propertyName === 'image3'){
             Villa.findOneAndUpdate({_id: id}, {
-                [propertyName]: 'https://ulayaw-backend.herokuapp.com/villa/' + req.file!.filename
+                [propertyName]: 'https://ulayaw-app.azurewebsites.net/villa/' + req.file!.filename
             },{new: true}, (err: any, villa: any)=>{
                 if (err) {
                     return res.status(500).json({

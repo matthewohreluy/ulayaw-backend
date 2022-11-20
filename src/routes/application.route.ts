@@ -11,10 +11,10 @@ const router = Router();
 
 router.get('/get',ApplicationController.getApp);
 
-router.post('/add', ApplicationController.addApp)
+router.post('/add', ApplicationController.addApp);
 
 router.put('/update',ApplicationController.updateApp);
 
-router.put('/updateLogo',multer_logo,ApplicationController.updateLogo);
+router.post('/updateLogo',multer_logo,ApplicationController.updateLogo);
 
 export default router;

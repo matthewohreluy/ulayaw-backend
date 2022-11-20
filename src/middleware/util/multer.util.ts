@@ -30,10 +30,12 @@ const fileStorage_logo = Multer.diskStorage({
         cb(null, 'src/static/logo')
     },
     filename: (req,file,cb)=>{
+        console.log(file.originalname);
+        console.log('file');
         cb(null, new Date().getTime() + file.originalname)
     }
 })
 
 export const multer_logo = Multer({
-    storage: fileStorage_image
+    storage: fileStorage_logo
 }).single('file');

@@ -7,5 +7,5 @@ const router = (0, express_1.Router)();
 router.get('/get', application_controller_1.ApplicationController.getApp);
 router.post('/add', application_controller_1.ApplicationController.addApp);
 router.put('/update', application_controller_1.ApplicationController.updateApp);
-router.put('/updateLogo', multer_util_1.multer_logo, application_controller_1.ApplicationController.updateLogo);
+router.post('/updateLogo', multer_util_1.multer_logo, application_controller_1.ApplicationController.updateLogo);
 exports.default = router;

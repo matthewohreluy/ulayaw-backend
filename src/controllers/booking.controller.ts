@@ -49,7 +49,7 @@ export namespace BookingController{
         const data = {
             data: {
               attributes: {
-                url: 'https://ulayaw-backend.herokuapp.com/webhook/listen', // Developer's note: this is unique in paymongo. You can't create multiple webhooks with same url.
+                url: 'https://ulayaw-app.azurewebsites.net/webhook/listen', // Developer's note: this is unique in paymongo. You can't create multiple webhooks with same url.
                 events: ['source.chargeable'] // The only event supported for now is 'source.chargeable'.
               }
             }
@@ -62,6 +62,22 @@ export namespace BookingController{
             return res.status(500).json(error);
           }
     }
+
+    export const webhookDisable: RequestHandler = async (req, res, next) =>{
+        const data = {
+           id: req.body.id,
+           action: 'disable'
+          }
+         
+          try{
+            const result = await paymongo.webhooks.toggle(data.id, data.action);
+            return res.status(200).json(result);
+        }catch (error) {
+            return res.status(500).json(error);
+          }
+    }
+
+    
     export const webhookListen: RequestHandler = async (req, res, next) =>{
         let sourceData = req.body.data.attributes.data;
         // create payment

@@ -32,9 +32,11 @@ const fileStorage_logo = multer_1.default.diskStorage({
         cb(null, 'src/static/logo');
     },
     filename: (req, file, cb) => {
+        console.log(file.originalname);
+        console.log('file');
         cb(null, new Date().getTime() + file.originalname);
     }
 });
 exports.multer_logo = (0, multer_1.default)({
-    storage: fileStorage_image
+    storage: fileStorage_logo
 }).single('file');
