@@ -7,5 +7,5 @@ const moment_controller_1 = require("../controllers/moment.controller");
 const router = (0, express_1.Router)();
 router.get('/get', isAuth_util_1.isAuth, moment_controller_1.MomentController.getAll);
 router.post('/upload', isAuth_util_1.isAuth, moment_controller_1.MomentController.upload);
-router.put('/update/:id', multer_util_1.multer_moment, moment_controller_1.MomentController.updateMoment);
+router.put('/update/:id', isAuth_util_1.isAuth, multer_util_1.multer_moment, moment_controller_1.MomentController.updateMoment);
 exports.default = router;
