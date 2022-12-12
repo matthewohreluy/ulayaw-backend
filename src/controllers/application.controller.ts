@@ -39,7 +39,7 @@ export namespace ApplicationController{
 
     export const updateLogo: RequestHandler = (req, res, next) =>{
         Application.findByIdAndUpdate({_id: '636e5d86a8823d1bddddb65d'}, {
-            businessLogo: 'https://ulayaw-app.azurewebsites.net/logo/'
+            businessLogo: 'https://ulayaw-app.azurewebsites.net/logo/' + req.file!.filename
         },{new: true}, (err: any, application: any)=>{
             if(err){
                 return res.status(500).json({

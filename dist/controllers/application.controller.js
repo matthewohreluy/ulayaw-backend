@@ -39,7 +39,7 @@ var ApplicationController;
     };
     ApplicationController.updateLogo = (req, res, next) => {
         app_1.default.findByIdAndUpdate({ _id: '636e5d86a8823d1bddddb65d' }, {
-            businessLogo: 'https://ulayaw-app.azurewebsites.net/logo/'
+            businessLogo: 'https://ulayaw-app.azurewebsites.net/logo/' + req.file.filename
         }, { new: true }, (err, application) => {
             if (err) {
                 return res.status(500).json({

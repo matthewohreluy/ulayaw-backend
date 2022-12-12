@@ -35,21 +35,29 @@ export namespace UserController{
     }
 
     export const getGuestUsers: RequestHandler = (req, res, next) =>{
-        const searchKey = req.query.searchKey;
+        const firstName = req.query.firstName;
+        const lastName = req.query.lastName;
         const queryMaker: Record<any,any> = {
             status: {$ne: 'Deleted'},
         }
 
         queryMaker['role'] = { $eq: 'Guest'}
-        if(searchKey){
-           queryMaker['$or'] = [
-            {
-                firstName: { $regex: searchKey, '$options' : 'i' }
-            },
-            {
-                lastName: { $regex: searchKey, '$options' : 'i'}
-            }
-           ]           
+             
+        if(firstName && lastName){
+            queryMaker['$or'] = [
+                {
+                    firstName: { $regex: firstName, '$options' : 'i' }
+                },
+                {
+                    lastName: { $regex: lastName, '$options' : 'i'}
+                }
+               ]  
+        }else
+        if(firstName){
+            queryMaker['firstName'] = { $regex: firstName, '$options' : 'i' }
+        }else
+        if(lastName){
+            queryMaker['lastName'] = { $regex: lastName, '$options' : 'i' }
         }
         console.log(queryMaker)
         User.find(queryMaker,(err: any, user: any)=>{

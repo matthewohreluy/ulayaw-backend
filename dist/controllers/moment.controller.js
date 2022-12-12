@@ -32,6 +32,7 @@ var MomentController;
         });
     };
     MomentController.upload = (req, res, next) => {
+        console.log(req.body.userId);
         booking_1.default.find({ userId: req.body.userId }, (err, booking) => {
             if (err) {
                 return res.status(500).json({
@@ -44,7 +45,8 @@ var MomentController;
                         err: err
                     });
                 }
-                console.log(req);
+                console.log(booking);
+                console.log(moment);
                 if (booking.length > moment.length) {
                     // upload moment
                     const newMoment = new moment_1.default({

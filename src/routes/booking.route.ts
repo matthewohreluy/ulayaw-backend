@@ -11,12 +11,11 @@ router.post('/add',isAuth,[
     body('bookingType').not().isEmpty(),
 ],BookingController.addBooking);
 router.get('/get',isAuth,BookingController.getBookings);
-router.post('/pay/:id',isAuth,BookingController.payBooking);
-router.post('/webhook/add', BookingController.webhookAdd);
-router.post('/webhook/disable', BookingController.webhookDisable);
-router.get('/webhook/get',BookingController.webhookGet);
-router.get('/getOne/:id',isAuth, BookingController.getOneBooking);
+router.post('/pay/:id/:type',isAuth,BookingController.payBooking);
+router.get('/getOne/:id', BookingController.getOneBooking);
+router.get('/source/:id/:type', BookingController.sourceGet);
 router.put('/update/:id',isAuth, BookingController.updateBooking);
-
-
+router.post('/webhook/add/:type', BookingController.webhookAdd);
+router.get('/webhook/disable/:id/:type', BookingController.webhookDisable);
+router.get('/webhook/get/:type',BookingController.webhookGet); //test or live
 export default router

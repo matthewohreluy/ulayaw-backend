@@ -36,20 +36,27 @@ var UserController;
         });
     };
     UserController.getGuestUsers = (req, res, next) => {
-        const searchKey = req.query.searchKey;
+        const firstName = req.query.firstName;
+        const lastName = req.query.lastName;
         const queryMaker = {
             status: { $ne: 'Deleted' },
         };
         queryMaker['role'] = { $eq: 'Guest' };
-        if (searchKey) {
+        if (firstName && lastName) {
             queryMaker['$or'] = [
                 {
-                    firstName: { $regex: searchKey, '$options': 'i' }
+                    firstName: { $regex: firstName, '$options': 'i' }
                 },
                 {
-                    lastName: { $regex: searchKey, '$options': 'i' }
+                    lastName: { $regex: lastName, '$options': 'i' }
                 }
             ];
+        }
+        else if (firstName) {
+            queryMaker['firstName'] = { $regex: firstName, '$options': 'i' };
+        }
+        else if (lastName) {
+            queryMaker['lastName'] = { $regex: lastName, '$options': 'i' };
         }
         console.log(queryMaker);
         user_1.default.find(queryMaker, (err, user) => {

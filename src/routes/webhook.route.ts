@@ -4,6 +4,7 @@ const router = Router();
 
 
 
-router.post('/listen', BookingController.webhookListen)
+router.post('/listen/:type', BookingController.webhookListen); //test or live
+
 
 export default router

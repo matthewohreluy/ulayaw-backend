@@ -1,3 +1,5 @@
 {
-    "liveServer.settings.port": 5501
+    "liveServer.settings.port": 5501,
+    "appService.defaultWebAppToDeploy": "/subscriptions/02e7af41-fbd1-483b-b961-3a18312f487a/AppServices/subscriptions/02e7af41-fbd1-483b-b961-3a18312f487a/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/ulayaw-app",
+    "appService.deploySubpath": "."
 }

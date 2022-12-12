@@ -32,6 +32,7 @@ export namespace MomentController{
     }
 
     export const upload: RequestHandler = (req, res, next) =>{
+        console.log(req.body.userId);
     Booking.find({userId: req.body.userId}, (err: any, booking: any)=>{
         if (err) {
             return res.status(500).json({
@@ -44,7 +45,8 @@ export namespace MomentController{
                 err: err
             });
         }
-        console.log(req);
+        console.log(booking);
+        console.log(moment);
         if(booking.length > moment.length){
             // upload moment
             const newMoment = new Moment({

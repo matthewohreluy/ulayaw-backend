@@ -30,24 +30,53 @@ let archiveJob = new cron_1.CronJob({
     }
 });
 // after 3 months
-const paymongo = new paymongo_1.default('sk_test_rYiCsW2PbSTuDgVxYwX8y68a');
+// const paymongo = new Paymongo('sk_test_rYiCsW2PbSTuDgVxYwX8y68a');
 // const paymongo = new Paymongo('sk_live_Gj6a42YVzY5jDPEiQHZcpSoW');
+const getPayMongoKey = (type) => {
+    if (type === 'test') {
+        return 'sk_test_rYiCsW2PbSTuDgVxYwX8y68a';
+    }
+    else if (type === 'live') {
+        return 'sk_live_Gj6a42YVzY5jDPEiQHZcpSoW';
+    }
+    else {
+        return 'sk_test_rYiCsW2PbSTuDgVxYwX8y68a';
+    }
+};
 var BookingController;
 (function (BookingController) {
-    BookingController.webhookGet = async (req, res, next) => {
+    BookingController.sourceGet = async (req, res, next) => {
+        const id = req.params.id;
+        const type = req.params.type;
+        const paymongo = new paymongo_1.default(getPayMongoKey(type));
         try {
-            const result = await paymongo.webhooks.list();
+            const result = await paymongo.sources.retrieve(id);
             return res.status(200).json(result);
         }
         catch (error) {
             return res.status(500).json(error);
         }
     };
+    BookingController.webhookGet = async (req, res, next) => {
+        const type = req.params.type;
+        const paymongo = new paymongo_1.default(getPayMongoKey(type));
+        try {
+            const result = await paymongo.webhooks.list();
+            return res.status(200).json(result);
+        }
+        catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    };
     BookingController.webhookAdd = async (req, res, next) => {
+        let type = req.params.type;
+        console.log(type);
+        const paymongo = new paymongo_1.default(getPayMongoKey(type));
         const data = {
             data: {
                 attributes: {
-                    url: 'https://ulayaw-app.azurewebsites.net/webhook/listen',
+                    url: `https://ulayaw-app.azurewebsites.net/webhook/listen/${type}`,
                     events: ['source.chargeable'] // The only event supported for now is 'source.chargeable'.
                 }
             }
@@ -61,19 +90,31 @@ var BookingController;
         }
     };
     BookingController.webhookDisable = async (req, res, next) => {
+        const type = req.params.type;
+        const id = req.params.id;
+        const paymongo = new paymongo_1.default(getPayMongoKey(type));
         const data = {
-            id: req.body.id,
+            id: id,
             action: 'disable'
         };
         try {
             const result = await paymongo.webhooks.toggle(data.id, data.action);
+            console.log(result);
+            console.log('test');
             return res.status(200).json(result);
         }
         catch (error) {
+            console.log(error);
             return res.status(500).json(error);
         }
     };
     BookingController.webhookListen = async (req, res, next) => {
+        let type = req.params.type;
+        const paymongo = new paymongo_1.default(getPayMongoKey(type));
+        console.log('data');
+        if (!req || !req.body || !req.body.data || !req.body.data.attributes || !req.body.data.attributes.data) {
+            return res.status(400).json({ message: 'Required Body Attribute Data' });
+        }
         let sourceData = req.body.data.attributes.data;
         // create payment
         const data = {
@@ -112,6 +153,8 @@ var BookingController;
         });
     };
     BookingController.payBooking = (req, res, next) => {
+        const type = req.params.type;
+        const paymongo = new paymongo_1.default(getPayMongoKey(type));
         const id = req.params.id;
         const paymentType = req.body.paymentType;
         // find booking
